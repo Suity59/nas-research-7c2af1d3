@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VHM · Vinhomes · Báo Cáo Điểm Rủi Ro · T5/2026</title>
+<style>
+@font-face{font-family:'SVN-Recoleta';src:url('./fonts/SVN-Recoleta%20Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Recoleta';src:url('./fonts/SVN-Recoleta%20SemiBold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20SemiBold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Black.otf') format('opentype');font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Light.otf') format('opentype');font-weight:300;font-style:normal;font-display:swap}
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+ --bg:#08090d;
+ --panel:#0d0f15;
+ --panel2:#11141c;
+ --line:#1d2230;
+ --line2:#262c3d;
+ --ink:#e9ecf3;
+ --ink2:#9aa3b8;
+ --ink3:#5d6478;
+ --green:#3fd17a;
+ --green-d:#1f7a48;
+ --red:#ff5d6c;
+ --red-d:#7a1f2a;
+ --amber:#f6b94a;
+ --amber-d:#7a5a1f;
+ --accent:#7aa2ff;
+ --accent-d:#2c3d6e;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:'SVN-Gilroy',-apple-system,sans-serif;font-weight:400;letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+.data,.num,.recoleta{font-family:'SVN-Recoleta',Georgia,serif;font-weight:700;letter-spacing:-.01em}
+body{padding:32px 36px 40px;min-height:100vh}
+.page{max-width:1200px;margin:0 auto 28px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 30px;position:relative;box-shadow:0 30px 60px -40px rgba(0,0,0,.8)}
+
+/* === HEADER / STOCK BAR === */
+.stockbar{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:22px;gap:24px;flex-wrap:wrap}
+.stk-left{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.ticker{font-family:'SVN-Recoleta';font-size:38px;font-weight:700;letter-spacing:-.02em}
+.ticker .dot{color:var(--green);font-size:14px;vertical-align:middle;margin-right:8px}
+.company{font-size:13px;color:var(--ink2);font-weight:500;text-transform:uppercase;letter-spacing:.14em}
+.tag{display:inline-block;font-size:10px;padding:4px 9px;border:1px solid var(--line2);border-radius:4px;color:var(--ink2);letter-spacing:.12em;text-transform:uppercase;margin-left:6px}
+.stk-mid{display:flex;align-items:baseline;gap:24px}
+.price{font-family:'SVN-Recoleta';font-size:42px;font-weight:700}
+.price .unit{font-size:14px;color:var(--ink2);font-family:'SVN-Gilroy';font-weight:500;margin-left:6px}
+.change{font-family:'SVN-Recoleta';font-size:16px;color:var(--red);font-weight:700}
+.change.up{color:var(--green)}
+.stk-right{display:flex;gap:10px;align-items:center}
+.btn{font-family:'SVN-Gilroy';font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--line2);border-radius:6px;background:transparent;color:var(--ink);cursor:pointer;transition:all .15s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.primary:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+/* === MASTER GRID PAGE 1 === */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;margin-bottom:24px}
+
+/* RISK GAUGE */
+.gauge-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between}
+.card-label{font-size:10px;color:var(--ink3);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:6px}
+.card-title{font-family:'SVN-Recoleta';font-size:20px;font-weight:600;margin-bottom:18px}
+.gauge-wrap{display:flex;align-items:center;gap:24px}
+.gauge-svg{flex-shrink:0}
+.gauge-info{flex:1}
+.gauge-score{font-family:'SVN-Recoleta';font-size:64px;font-weight:700;line-height:1;color:var(--green)}
+.gauge-score .of{font-size:24px;color:var(--ink3);font-weight:600}
+.gauge-label{font-family:'SVN-Recoleta';font-size:18px;color:var(--green);font-weight:600;margin-top:6px}
+.gauge-desc{font-size:12px;color:var(--ink2);line-height:1.6;margin-top:10px}
+
+/* KPI STRIP */
+.kpi-strip{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}
+.kpi{display:flex;flex-direction:column;gap:4px;padding:8px 0;border-left:2px solid var(--line2);padding-left:14px}
+.kpi.good{border-left-color:var(--green)}
+.kpi.bad{border-left-color:var(--red)}
+.kpi.warn{border-left-color:var(--amber)}
+.kpi .k{font-size:10px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.kpi .v{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;line-height:1.1}
+.kpi .s{font-size:11px;color:var(--ink2);font-weight:500}
+.kpi.good .v{color:var(--green)}
+.kpi.bad .v{color:var(--red)}
+.kpi.warn .v{color:var(--amber)}
+
+/* PRICE CHART */
+.chart-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:24px}
+.chart-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.chart-svg{width:100%;height:240px;display:block}
+.chart-legend{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2);font-weight:500}
+.lg .sw{width:18px;height:2px;background:var(--accent)}
+.lg .sw.dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.lg .sw.dot.red{background:var(--red)}
+.lg .sw.dot.amber{background:var(--amber)}
+
+/* SECTION HEADER */
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;margin:6px 0 14px}
+.sec-h .t{font-family:'SVN-Recoleta';font-size:22px;font-weight:600}
+.sec-h .tt{font-size:11px;color:var(--ink3);letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+
+/* METRIC CARDS GRID */
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.m-card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+.m-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--ink3)}
+.m-card.good::before{background:var(--green)}
+.m-card.bad::before{background:var(--red)}
+.m-card.warn::before{background:var(--amber)}
+.m-card .mt{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.m-card .mn{font-size:11px;color:var(--ink2);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.m-card .ms{font-size:9px;padding:3px 7px;border-radius:3px;font-weight:700;letter-spacing:.1em}
+.m-card.good .ms{background:rgba(63,209,122,.12);color:var(--green)}
+.m-card.bad .ms{background:rgba(255,93,108,.12);color:var(--red)}
+.m-card.warn .ms{background:rgba(246,185,74,.12);color:var(--amber)}
+.m-card .mv{font-family:'SVN-Recoleta';font-size:26px;font-weight:700;line-height:1.1}
+.m-card .mb{font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.5}
+.m-card .mq{font-size:10px;color:var(--ink3);margin-top:6px;font-style:italic}
+
+/* SCORE BREAKDOWN */
+.scorebar{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-top:6px}
+.sb-row{display:grid;grid-template-columns:170px 1fr 110px;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.sb-row:last-child{border-bottom:none}
+.sb-name{display:flex;flex-direction:column;gap:2px}
+.sb-name .nm{font-family:'SVN-Recoleta';font-size:14px;font-weight:600}
+.sb-name .wt{font-size:10px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase}
+.sb-track{height:12px;background:var(--line);border-radius:6px;overflow:hidden;position:relative}
+.sb-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-family:'SVN-Recoleta';font-size:9px;font-weight:700}
+.sb-fill.red{background:linear-gradient(90deg,#7a1f2a,var(--red))}
+.sb-fill.amber{background:linear-gradient(90deg,#7a5a1f,var(--amber))}
+.sb-fill.green{background:linear-gradient(90deg,#1f7a48,var(--green))}
+.sb-score{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;text-align:right}
+.sb-score .of{font-size:13px;color:var(--ink3)}
+.sb-total{display:grid;grid-template-columns:170px 1fr 110px;gap:14px;align-items:center;padding-top:14px;margin-top:6px;border-top:2px solid var(--line2)}
+.sb-total .nm{font-family:'SVN-Recoleta';font-size:16px;font-weight:700;color:var(--green)}
+.sb-total .sb-score{color:var(--green);font-size:26px}
+
+/* === PAGE 2 === */
+.page2-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.page2-head .h1{font-family:'SVN-Recoleta';font-size:30px;font-weight:700}
+.page2-head .h2{font-size:11px;color:var(--ink3);letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-bottom:8px;background:var(--panel2);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.qtable th{font-size:10px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:14px 12px;text-align:right;border-bottom:1px solid var(--line2);background:var(--panel)}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:13px 12px;text-align:right;border-bottom:1px solid var(--line);font-family:'SVN-Recoleta';font-size:14px;font-weight:700}
+.qtable td:first-child{text-align:left;font-family:'SVN-Gilroy';font-weight:600;font-size:12px;color:var(--ink2);letter-spacing:.05em;text-transform:uppercase}
+.qtable tr:last-child td{border-bottom:none}
+.qtable tr:last-child td{color:var(--green)}
+.qtable .pos{color:var(--green)}
+.qtable .neg{color:var(--red)}
+
+/* EARNINGS PANEL */
+.split-2{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin:22px 0}
+.panel{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.panel-h{font-family:'SVN-Recoleta';font-size:18px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.panel-h .pill{font-size:9px;font-family:'SVN-Gilroy';font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.12em;text-transform:uppercase;background:rgba(122,162,255,.12);color:var(--accent)}
+.panel-h .pill.green{background:rgba(63,209,122,.12);color:var(--green)}
+.earn-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.eg{padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.eg .k{font-size:10px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.eg .v{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;line-height:1}
+.eg .d{font-size:11px;margin-top:4px;font-weight:600}
+.eg .d.up{color:var(--green)}
+.eg .d.dn{color:var(--red)}
+.earn-note{font-size:12px;color:var(--ink2);line-height:1.7;margin-top:8px}
+.earn-note strong{color:var(--ink);font-weight:600}
+
+/* CATALYSTS vs RISKS DUAL */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0 24px}
+.dual-col{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.dual-col.cat{border-top:2px solid var(--green)}
+.dual-col.risk{border-top:2px solid var(--red)}
+.dual-h{font-family:'SVN-Recoleta';font-size:18px;font-weight:600;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.dual-h .pill{font-size:10px;font-family:'SVN-Gilroy';font-weight:700;padding:4px 10px;border-radius:4px;letter-spacing:.12em;text-transform:uppercase}
+.dual-col.cat .pill{background:rgba(63,209,122,.12);color:var(--green)}
+.dual-col.risk .pill{background:rgba(255,93,108,.12);color:var(--red)}
+.dual-item{padding:12px 0;border-bottom:1px dashed var(--line)}
+.dual-item:last-child{border-bottom:none}
+.di-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px}
+.di-name{font-family:'SVN-Gilroy';font-size:13px;font-weight:700;color:var(--ink)}
+.di-imp{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink3)}
+.dual-col.cat .di-imp{color:var(--green)}
+.dual-col.risk .di-imp{color:var(--red)}
+.di-desc{font-size:11.5px;color:var(--ink2);line-height:1.6}
+.di-date{font-size:10px;color:var(--ink3);margin-top:3px;letter-spacing:.05em}
+
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,var(--panel2) 0%,var(--panel) 100%);border:1px solid var(--line2);border-radius:14px;padding:26px 28px;margin-top:6px;position:relative;overflow:hidden}
+.bottom::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--green),var(--accent))}
+.bl-h{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;margin-bottom:6px}
+.bl-sub{font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+.rating-bar{display:flex;height:36px;border-radius:6px;overflow:hidden;border:1px solid var(--line);margin-bottom:18px;position:relative}
+.rb-seg{flex:1;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);background:var(--panel);border-right:1px solid var(--line);position:relative}
+.rb-seg:last-child{border-right:none}
+.rb-seg.active{background:var(--green);color:#062a17}
+.rb-seg.active::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--green)}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
+.v-tag{font-family:'SVN-Recoleta';font-size:42px;font-weight:700;color:var(--green);line-height:1;border:2px solid var(--green);padding:14px 22px;border-radius:8px;text-align:center}
+.v-tag .sub{font-size:11px;font-family:'SVN-Gilroy';font-weight:700;color:var(--green);letter-spacing:.14em;display:block;margin-top:6px}
+.v-text{font-size:13.5px;color:var(--ink);line-height:1.75}
+.v-text strong{color:var(--green);font-weight:700}
+
+footer{max-width:1200px;margin:24px auto 0;display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase}
+
+/* PRINT */
+@media print{
+ body{padding:0}
+ .page{box-shadow:none;page-break-after:always;margin:0;border-radius:0;border:none}
+ .stk-right{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<section class="page" id="page1">
+
+ <!-- STOCK BAR -->
+ <div class="stockbar">
+  <div class="stk-left">
+   <div>
+    <div class="ticker"><span class="dot">●</span>VHM<span class="tag">HOSE</span></div>
+    <div class="company">Vinhomes JSC · Vietnam Real Estate Developer</div>
+   </div>
+  </div>
+  <div class="stk-mid">
+   <div>
+    <div class="price">107.200<span class="unit">VND</span></div>
+    <div class="change">▼ 43.700 (−28,96% so với ATH)</div>
+   </div>
+  </div>
+  <div class="stk-right">
+   <button class="btn" onclick="window.print()">In PDF</button>
+   <button class="btn primary" id="copyBtn" onclick="copyReport()">Sao chép báo cáo</button>
+  </div>
+ </div>
+
+ <!-- HERO: GAUGE + KPI -->
+ <div class="hero">
+  <div class="gauge-card">
+   <div>
+    <div class="card-label">Điểm Rủi Ro Tổng Hợp</div>
+    <div class="card-title">Risk Score Composite · 0–100</div>
+   </div>
+   <div class="gauge-wrap">
+    <svg class="gauge-svg" viewBox="0 0 220 130" width="220" height="130">
+     <defs>
+      <linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+       <stop offset="0%" stop-color="#3fd17a"/>
+       <stop offset="40%" stop-color="#f6b94a"/>
+       <stop offset="75%" stop-color="#ff7a5d"/>
+       <stop offset="100%" stop-color="#ff5d6c"/>
+      </linearGradient>
+     </defs>
+     <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#1d2230" stroke-width="16" stroke-linecap="round"/>
+     <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="url(#ggrad)" stroke-width="16" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="0" opacity=".88"/>
+     <!-- needle at 38 (out of 100) — angle = 180*0.38 = 68.4° from left → rotate -111.6 (relative to vertical) -->
+     <g transform="rotate(-112 110 110)">
+      <line x1="110" y1="110" x2="110" y2="32" stroke="#e9ecf3" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="110" cy="110" r="7" fill="#08090d" stroke="#e9ecf3" stroke-width="2"/>
+     </g>
+     <text x="20" y="125" font-family="SVN-Recoleta" font-size="9" fill="#5d6478" text-anchor="middle">0</text>
+     <text x="200" y="125" font-family="SVN-Recoleta" font-size="9" fill="#5d6478" text-anchor="middle">100</text>
+     <text x="110" y="22" font-family="SVN-Recoleta" font-size="9" fill="#5d6478" text-anchor="middle">50</text>
+    </svg>
+    <div class="gauge-info">
+     <div class="gauge-score">38<span class="of">/100</span></div>
+     <div class="gauge-label">RỦI RO THẤP</div>
+     <div class="gauge-desc">Định giá hấp dẫn (P/E forward 11x), D/E chỉ 0,60 và backlog 201,6 nghìn tỷ đảm bảo doanh thu 2026–2027. Rủi ro chính nằm ở vĩ mô lãi suất &amp; hấp thụ thị trường.</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="kpi-strip">
+   <div class="kpi good"><div class="k">Vốn hóa</div><div class="v">~18,7 tỷ USD</div><div class="s">≈ 467.000 tỷ VND · top 5 HOSE</div></div>
+   <div class="kpi good"><div class="k">P/E (TTM)</div><div class="v">17,9x</div><div class="s">P/E Forward chỉ 11,0x</div></div>
+   <div class="kpi good"><div class="k">DT 2025</div><div class="v">153,3 nghìn tỷ</div><div class="s">+49,8% YoY</div></div>
+   <div class="kpi good"><div class="k">LN sau thuế 2025</div><div class="v">42,1 nghìn tỷ</div><div class="s">+50,1% YoY · ATH</div></div>
+   <div class="kpi warn"><div class="k">Tỷ lệ D/E</div><div class="v">0,60x</div><div class="s">Tiền 51,3 nghìn tỷ · Nợ 141,5</div></div>
+   <div class="kpi good"><div class="k">ROE</div><div class="v">13,2%</div><div class="s">ROIC 3,1% · cao hơn ngành</div></div>
+  </div>
+ </div>
+
+ <!-- PRICE CHART -->
+ <div class="chart-card">
+  <div class="chart-head">
+   <div>
+    <div class="card-label">Diễn biến giá 12 tháng</div>
+    <div class="card-title">Price Action · T5/2025 — T5/2026</div>
+   </div>
+   <div style="text-align:right">
+    <div style="font-family:'SVN-Recoleta';font-size:18px;font-weight:700;color:var(--green)">+185%</div>
+    <div style="font-size:10px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase">12-tháng (TWR)</div>
+   </div>
+  </div>
+  <svg class="chart-svg" viewBox="0 0 1140 240" preserveAspectRatio="none">
+   <defs>
+    <linearGradient id="pgrad" x1="0" x2="0" y1="0" y2="1">
+     <stop offset="0%" stop-color="#3fd17a" stop-opacity=".32"/>
+     <stop offset="100%" stop-color="#3fd17a" stop-opacity="0"/>
+    </linearGradient>
+   </defs>
+   <!-- y grid -->
+   <g stroke="#1d2230" stroke-width="1">
+    <line x1="40" y1="30" x2="1130" y2="30"/>
+    <line x1="40" y1="80" x2="1130" y2="80"/>
+    <line x1="40" y1="130" x2="1130" y2="130"/>
+    <line x1="40" y1="180" x2="1130" y2="180"/>
+    <line x1="40" y1="220" x2="1130" y2="220"/>
+   </g>
+   <!-- y labels: 30k→160k range -->
+   <g font-family="SVN-Recoleta" font-size="9" fill="#5d6478">
+    <text x="34" y="34" text-anchor="end">160k</text>
+    <text x="34" y="84" text-anchor="end">130k</text>
+    <text x="34" y="134" text-anchor="end">100k</text>
+    <text x="34" y="184" text-anchor="end">70k</text>
+    <text x="34" y="224" text-anchor="end">40k</text>
+   </g>
+   <!-- x labels -->
+   <g font-family="SVN-Gilroy" font-size="9" font-weight="600" fill="#5d6478" letter-spacing="1">
+    <text x="50" y="235">T5/25</text>
+    <text x="140" y="235">T6</text>
+    <text x="230" y="235">T7</text>
+    <text x="320" y="235">T8</text>
+    <text x="410" y="235">T9</text>
+    <text x="500" y="235">T10</text>
+    <text x="590" y="235">T11</text>
+    <text x="680" y="235">T12</text>
+    <text x="770" y="235">T1/26</text>
+    <text x="860" y="235">T2</text>
+    <text x="950" y="235">T3</text>
+    <text x="1040" y="235">T4</text>
+    <text x="1110" y="235" text-anchor="end">T5/26</text>
+   </g>
+   <!-- Price approx: T5/25 ~37.6k(225), T7 ~50k(204), T9 ~68k(177), T11 ~85k(150), T1/26 ATH 150.9k(38), Feb dip to 125k(72), T3 130k(63), T4 115k(86), May 107k(94) -->
+   <path d="M 50 225 L 140 217 L 230 204 L 320 191 L 410 177 L 500 162 L 590 150 L 680 120 L 770 38 L 860 72 L 950 63 L 1040 86 L 1100 94 L 1100 220 L 50 220 Z" fill="url(#pgrad)"/>
+   <path d="M 50 225 L 140 217 L 230 204 L 320 191 L 410 177 L 500 162 L 590 150 L 680 120 L 770 38 L 860 72 L 950 63 L 1040 86 L 1100 94"
+         fill="none" stroke="#3fd17a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+   <!-- M1: Vinhomes Royal Island handover (T8/25) — green -->
+   <circle cx="320" cy="191" r="5.5" fill="#08090d" stroke="#3fd17a" stroke-width="2.4"/>
+   <line x1="320" y1="184" x2="320" y2="55" stroke="#3fd17a" stroke-dasharray="3 3" stroke-width="1" opacity=".6"/>
+   <rect x="240" y="36" width="160" height="22" rx="3" fill="#0d0f15" stroke="#3fd17a" stroke-width="1"/>
+   <text x="320" y="51" font-family="SVN-Gilroy" font-size="10" font-weight="600" fill="#3fd17a" text-anchor="middle">Royal Island bàn giao</text>
+   <!-- M2: Hải Vân Bay launch (Q4/25) — amber -->
+   <circle cx="680" cy="120" r="5.5" fill="#08090d" stroke="#f6b94a" stroke-width="2.4"/>
+   <line x1="680" y1="113" x2="680" y2="92" stroke="#f6b94a" stroke-dasharray="3 3" stroke-width="1" opacity=".6"/>
+   <rect x="600" y="72" width="160" height="22" rx="3" fill="#0d0f15" stroke="#f6b94a" stroke-width="1"/>
+   <text x="680" y="87" font-family="SVN-Gilroy" font-size="10" font-weight="600" fill="#f6b94a" text-anchor="middle">Hải Vân Bay mở bán</text>
+   <!-- M3: ATH 150.9k (T1/26) — green -->
+   <circle cx="770" cy="38" r="6.5" fill="#08090d" stroke="#3fd17a" stroke-width="2.4"/>
+   <rect x="680" y="6" width="160" height="22" rx="3" fill="#0d0f15" stroke="#3fd17a" stroke-width="1"/>
+   <text x="760" y="21" font-family="SVN-Gilroy" font-size="10" font-weight="600" fill="#3fd17a" text-anchor="middle">ATH 150.900đ · 08/01</text>
+   <!-- M4: Pullback (Feb-Apr) — red -->
+   <circle cx="1040" cy="86" r="5.5" fill="#08090d" stroke="#ff5d6c" stroke-width="2.4"/>
+   <line x1="1040" y1="93" x2="1040" y2="125" stroke="#ff5d6c" stroke-dasharray="3 3" stroke-width="1" opacity=".6"/>
+   <rect x="960" y="125" width="160" height="22" rx="3" fill="#0d0f15" stroke="#ff5d6c" stroke-width="1"/>
+   <text x="1040" y="140" font-family="SVN-Gilroy" font-size="10" font-weight="600" fill="#ff5d6c" text-anchor="middle">Cooling −29% từ ATH</text>
+   <!-- M5: current 107.2k -->
+   <circle cx="1100" cy="94" r="5.5" fill="#08090d" stroke="#3fd17a" stroke-width="2.4"/>
+   <text x="1085" y="88" font-family="SVN-Recoleta" font-size="11" font-weight="700" fill="#3fd17a" text-anchor="end">107,2k</text>
+  </svg>
+  <div class="chart-legend">
+   <div class="lg"><span class="sw" style="background:#3fd17a"></span>Giá đóng cửa</div>
+   <div class="lg"><span class="sw dot"></span>Sự kiện tích cực</div>
+   <div class="lg"><span class="sw dot amber"></span>Sự kiện trung tính</div>
+   <div class="lg"><span class="sw dot red"></span>Điều chỉnh kỹ thuật</div>
+   <div class="lg" style="margin-left:auto;color:var(--ink3)">Nguồn: HOSE · stockanalysis.com · simplywall.st</div>
+  </div>
+ </div>
+
+ <!-- VALUATION -->
+ <div class="sec-h">
+  <div class="t">Định giá · Valuation</div>
+  <div class="tt">Trọng số 35% · 6 chỉ số</div>
+ </div>
+ <div class="metric-grid">
+  <div class="m-card good">
+   <div class="mt"><div class="mn">P/E TTM</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">17,9x</div>
+   <div class="mb">Tương đương trung vị ngành BĐS VN (~18x). Mức bình thường sau khi LN 2025 nhảy lên 42 nghìn tỷ.</div>
+   <div class="mq">Yahoo · stockanalysis · T5/26</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">P/E Forward</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">11,0x</div>
+   <div class="mb">Với mục tiêu LN 2026 là 60.000 tỷ, P/E forward chỉ 11x — rẻ nhất nhóm BĐS Việt Nam.</div>
+   <div class="mq">Simply Wall St · Apr-26</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">P/B</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">2,1x</div>
+   <div class="mb">Sát trung vị 5 năm (2,0x). NAV/CP ước ~52.000 đồng – mức chiết khấu lớn so với giá.</div>
+   <div class="mq">Vietstock · gurufocus</div>
+  </div>
+  <div class="m-card warn">
+   <div class="mt"><div class="mn">EV/EBITDA</div><div class="ms">CẨN TRỌNG</div></div>
+   <div class="mv">9,8x</div>
+   <div class="mb">Trên TB 3 năm (~8,2x) nhưng vẫn rẻ hơn nhiều so với VIC (22,8x). Backlog hỗ trợ chuyển đổi LN.</div>
+   <div class="mq">finbox · Q1-26</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">PEG</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">0,5x</div>
+   <div class="mb">Tăng trưởng LN forward ~38%, PEG dưới 1 — định giá hấp dẫn rõ rệt cho 1 leader.</div>
+   <div class="mq">Tự tính (P/E ÷ g)</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Giá / NAV</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">−28%</div>
+   <div class="mb">Quỹ đất hơn 16.800 ha, định giá lại sau Cần Giờ có thể bù hết khoảng cách giá – NAV.</div>
+   <div class="mq">VHM IR · ĐHĐCĐ 2026</div>
+  </div>
+ </div>
+
+ <!-- FINANCIAL HEALTH -->
+ <div class="sec-h">
+  <div class="t">Sức Khỏe Tài Chính · Financial Health</div>
+  <div class="tt">Trọng số 35% · 6 chỉ số</div>
+ </div>
+ <div class="metric-grid">
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Nợ / Vốn CSH</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">0,60x</div>
+   <div class="mb">Thấp hơn nhiều so với VIC (2,23x). Khả năng vay thêm để mở rộng quỹ đất vẫn rộng.</div>
+   <div class="mq">Q1/26 · stockanalysis</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Current Ratio</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">1,32x</div>
+   <div class="mb">Tiền &amp; tương đương 51,3 nghìn tỷ – đủ trang trải nợ ngắn hạn ~38,9 nghìn tỷ.</div>
+   <div class="mq">BCTC hợp nhất 2025</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">ROE</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">13,2%</div>
+   <div class="mb">Cao hơn TB ngành BĐS Việt (~12%). 2026E có thể tiến tới 18% nếu chốt LN 60 nghìn tỷ.</div>
+   <div class="mq">infrontanalytics</div>
+  </div>
+  <div class="m-card warn">
+   <div class="mt"><div class="mn">ROIC</div><div class="ms">CẨN TRỌNG</div></div>
+   <div class="mv">3,12%</div>
+   <div class="mb">Thấp do vốn ứ trong dự án dài hạn. Sẽ cải thiện khi Royal Island &amp; Hải Vân Bay ghi nhận đủ.</div>
+   <div class="mq">simplywall · Q1-26</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Doanh số chưa ghi nhận</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">201,6 nghìn tỷ</div>
+   <div class="mb">+68% YoY. Đủ "khóa" doanh thu 2026–2027 ngay cả nếu thị trường chững.</div>
+   <div class="mq">VHM IR · Q1/26 report</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Cổ tức &amp; Chia thưởng</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">60% TM + 100%</div>
+   <div class="mb">Trả 6.000đ/CP tiền mặt + chia thưởng 100% cổ phiếu. Tổng chi ~25 nghìn tỷ.</div>
+   <div class="mq">ĐHĐCĐ 21/04/26 · cafef</div>
+  </div>
+ </div>
+
+ <!-- GROWTH -->
+ <div class="sec-h">
+  <div class="t">Tăng Trưởng · Growth</div>
+  <div class="tt">Trọng số 30% · 6 chỉ số</div>
+ </div>
+ <div class="metric-grid">
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Doanh thu Q1/2026</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">+315%</div>
+   <div class="mb">65.114 tỷ đồng. Cao kỷ lục cho 1 quý – chủ yếu nhờ Royal Island &amp; Ocean City.</div>
+   <div class="mq">vietnambusinessinsider · 28/04</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">LN sau thuế Q1/2026</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">+866%</div>
+   <div class="mb">25.625 tỷ đồng. Gấp 10 lần cùng kỳ. Đã hoàn thành 43% kế hoạch LN cả năm sau Q1.</div>
+   <div class="mq">Mekong ASEAN · Vietstock</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Bán hàng Q1 (booking)</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">81,7 nghìn tỷ</div>
+   <div class="mb">+133% YoY. Hấp thụ Hải Vân Bay đạt 90%, Green Paradise mở bán đợt đầu rất tốt.</div>
+   <div class="mq">vietnammoi · ĐHĐCĐ 2026</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Mục tiêu DT 2026</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">285 nghìn tỷ</div>
+   <div class="mb">+86% so 2025. Đã nâng từ 250 lên 285 ngay trước ĐHĐCĐ – tín hiệu tự tin của BLĐ.</div>
+   <div class="mq">cafef · ĐHĐCĐ 21/04/26</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Mục tiêu LN 2026</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">60 nghìn tỷ</div>
+   <div class="mb">+42,5% YoY. Đây sẽ là mức LN cao nhất lịch sử ngành BĐS niêm yết Việt Nam.</div>
+   <div class="mq">znews · theleader</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Pipeline dự án</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">16.800+ ha</div>
+   <div class="mb">Cần Giờ (Green Paradise) 2.870 ha + Hải Vân Bay + Royal Island GĐ3 + Vũ Yên + Long Beach.</div>
+   <div class="mq">VHM Corporate Presentation</div>
+  </div>
+ </div>
+
+ <!-- SCORE BREAKDOWN -->
+ <div class="sec-h">
+  <div class="t">Phân Rã Điểm Rủi Ro · Score Breakdown</div>
+  <div class="tt">Tỷ trọng 35 / 35 / 30</div>
+ </div>
+ <div class="scorebar">
+  <div class="sb-row">
+   <div class="sb-name"><div class="nm">Định giá</div><div class="wt">Trọng số 35%</div></div>
+   <div class="sb-track"><div class="sb-fill green" style="width:34%">34%</div></div>
+   <div class="sb-score">12<span class="of">/35</span></div>
+  </div>
+  <div class="sb-row">
+   <div class="sb-name"><div class="nm">Sức khỏe TC</div><div class="wt">Trọng số 35%</div></div>
+   <div class="sb-track"><div class="sb-fill amber" style="width:51%">51%</div></div>
+   <div class="sb-score">18<span class="of">/35</span></div>
+  </div>
+  <div class="sb-row">
+   <div class="sb-name"><div class="nm">Tăng trưởng</div><div class="wt">Trọng số 30%</div></div>
+   <div class="sb-track"><div class="sb-fill green" style="width:27%">27%</div></div>
+   <div class="sb-score">8<span class="of">/30</span></div>
+  </div>
+  <div class="sb-total">
+   <div class="sb-name"><div class="nm">TỔNG ĐIỂM</div><div class="wt">Risk Composite</div></div>
+   <div class="sb-track"><div class="sb-fill green" style="width:38%">38%</div></div>
+   <div class="sb-score">38<span class="of">/100</span></div>
+  </div>
+ </div>
+
+</section>
+
+<!-- ============ PAGE 2 ============ -->
+<section class="page" id="page2">
+
+ <div class="page2-head">
+  <div>
+   <div class="h1">Phân Tích Sâu · Catalysts &amp; Risks</div>
+   <div style="font-size:12px;color:var(--ink2);font-weight:500;margin-top:6px">Vinhomes JSC · HOSE:VHM · Báo cáo nội bộ Namanhsuit · 24/05/2026</div>
+  </div>
+  <div class="h2">Trang 2/2 · Confidential</div>
+ </div>
+
+ <!-- QUARTERLY TABLE -->
+ <div class="sec-h">
+  <div class="t">Diễn biến theo Quý</div>
+  <div class="tt">Đơn vị: nghìn tỷ VND</div>
+ </div>
+ <table class="qtable">
+  <thead>
+   <tr>
+    <th>Chỉ tiêu</th>
+    <th>Q1/2025</th>
+    <th>Q2/2025</th>
+    <th>Q3/2025</th>
+    <th>Q4/2025</th>
+    <th>Q1/2026</th>
+    <th>YoY</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr>
+    <td>Doanh thu thuần</td>
+    <td>15,7</td>
+    <td>26,4</td>
+    <td>42,8</td>
+    <td>68,4</td>
+    <td>65,1</td>
+    <td class="pos">+315%</td>
+   </tr>
+   <tr>
+    <td>Lợi nhuận sau thuế</td>
+    <td>2,65</td>
+    <td>4,86</td>
+    <td>11,4</td>
+    <td>23,2</td>
+    <td>25,63</td>
+    <td class="pos">+866%</td>
+   </tr>
+   <tr>
+    <td>Biên LN ròng</td>
+    <td>16,9%</td>
+    <td>18,4%</td>
+    <td>26,6%</td>
+    <td>33,9%</td>
+    <td>39,4%</td>
+    <td class="pos">+22,5đ</td>
+   </tr>
+   <tr>
+    <td>Booking bán hàng (k tỷ)</td>
+    <td>35,1</td>
+    <td>32,4</td>
+    <td>95,1</td>
+    <td>54,2</td>
+    <td>81,7</td>
+    <td class="pos">+132,8%</td>
+   </tr>
+   <tr>
+    <td>Tỷ lệ nợ / VCSH</td>
+    <td>0,68x</td>
+    <td>0,64x</td>
+    <td>0,62x</td>
+    <td>0,61x</td>
+    <td>0,60x</td>
+    <td class="pos">−0,08x</td>
+   </tr>
+   <tr>
+    <td>Giá đóng cửa (k đồng)</td>
+    <td>37,6</td>
+    <td>47,8</td>
+    <td>68,4</td>
+    <td>132,2</td>
+    <td>107,2</td>
+    <td class="pos">+185,1%</td>
+   </tr>
+  </tbody>
+ </table>
+
+ <!-- EARNINGS & PIPELINE -->
+ <div class="split-2">
+  <div class="panel">
+   <div class="panel-h">Cập Nhật KQKD Mới Nhất<span class="pill green">Q1/2026 · Công bố 28/04</span></div>
+   <div class="earn-grid">
+    <div class="eg"><div class="k">Doanh thu thuần</div><div class="v">65.114</div><div class="d up">+315% YoY · vượt KH</div></div>
+    <div class="eg"><div class="k">LN sau thuế</div><div class="v">25.625</div><div class="d up">+866% YoY · gấp 10 lần</div></div>
+    <div class="eg"><div class="k">Booking Q1</div><div class="v">81.700</div><div class="d up">+133% YoY</div></div>
+    <div class="eg"><div class="k">Hoàn thành KH năm</div><div class="v">42,7%</div><div class="d up">LN/60.000 tỷ kế hoạch</div></div>
+   </div>
+   <div class="earn-note">
+    <strong>Bóc tách:</strong> Q1 ghi nhận chủ yếu từ <strong>Royal Island</strong> (Hải Phòng) bàn giao GĐ2 và <strong>Ocean City</strong> bàn giao 3 tiểu khu mới. Biên LN ròng nhảy lên 39,4% – mức cao nhất từ trước tới nay nhờ mix sản phẩm cao cấp. Hấp thụ Hải Vân Bay đạt 90% chỉ sau 5 tuần mở bán.
+   </div>
+  </div>
+
+  <div class="panel">
+   <div class="panel-h">Pipeline Đại Dự Án<span class="pill">2026–2028</span></div>
+   <div class="earn-grid">
+    <div class="eg"><div class="k">Vinhomes Green Paradise (Cần Giờ)</div><div class="v">2.870 ha</div><div class="d up">Mở bán đợt 1: Q3/2026</div></div>
+    <div class="eg"><div class="k">Vinhomes Hải Vân Bay</div><div class="v">90% hấp thụ</div><div class="d up">Booking ~38 nghìn tỷ Q1</div></div>
+    <div class="eg"><div class="k">Royal Island GĐ3</div><div class="v">385 ha</div><div class="d up">Mở bán Q2/2026</div></div>
+    <div class="eg"><div class="k">Vũ Yên + Long Beach</div><div class="v">~1.200 ha</div><div class="d up">Pipeline 2027</div></div>
+   </div>
+   <div class="earn-note">
+    <strong>Điểm cốt lõi:</strong> Quỹ đất sẵn sàng triển khai ~16.800 ha — lớn nhất Việt Nam. <strong>Cần Giờ Green Paradise</strong> là dự án xoay chuyển định giá: 1.357 ha lấn biển + sân golf + casino. Nếu mở bán đúng tiến độ Q3, VHM có thể chốt thêm ~80–100 nghìn tỷ booking trong 6 tháng.
+   </div>
+  </div>
+ </div>
+
+ <!-- CATALYSTS vs RISKS -->
+ <div class="sec-h">
+  <div class="t">Xúc Tác vs Rủi Ro</div>
+  <div class="tt">12 tháng tới</div>
+ </div>
+ <div class="dual">
+  <div class="dual-col cat">
+   <div class="dual-h">Xúc Tác Tăng Giá<span class="pill">5 catalysts</span></div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Mở bán Vinhomes Green Paradise (Cần Giờ)</div><div class="di-imp">Rất cao</div></div>
+    <div class="di-desc">Mega-project 2.870 ha. Ước booking đợt 1 ~50–60 nghìn tỷ. Trụ cột LN 2026–2028.</div>
+    <div class="di-date">Mở bán đợt 1: Q3/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Hoàn tất chia cổ tức 60% + 100% CP thưởng</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">Chi 25 nghìn tỷ tiền mặt + tăng vốn lên 80 nghìn tỷ. Lực hút dòng tiền retail rất mạnh.</div>
+    <div class="di-date">Chốt quyền: T7/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">FTSE EM final review</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">VHM tỷ trọng ~4,5% trong rổ VN. Ước dòng vốn ETF thụ động 120–200 triệu USD vào VHM.</div>
+    <div class="di-date">Review: T9/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Royal Island GĐ3 + bàn giao Ocean City</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">Đảm bảo dòng doanh thu ghi nhận xuyên suốt H2/2026, khóa mục tiêu 60 nghìn tỷ LN.</div>
+    <div class="di-date">Q2–Q4 2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Hạ lãi suất nhà ở của SBV</div><div class="di-imp">TB-Cao</div></div>
+    <div class="di-desc">Nếu lãi suất nhà ở giảm 100bps từ mức 12–14%, tỷ lệ hấp thụ thị trường có thể bật từ 25% lên 40%.</div>
+    <div class="di-date">Khả năng cao Q3/2026</div>
+   </div>
+  </div>
+
+  <div class="dual-col risk">
+   <div class="dual-h">Rủi Ro Giảm Giá<span class="pill">5 risks</span></div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Hấp thụ thị trường BĐS chậm</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">Q1/26 tỷ lệ hấp thụ toàn thị trường chỉ 20–25%, lãi vay 12–14%. Nếu Cần Giờ mở bán "ấm", LN 60k tỷ khó đạt.</div>
+    <div class="di-date">Theo dõi M-trend booking</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Slippage tiến độ Cần Giờ</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">Lấn biển 1.357 ha + casino license. Bất kỳ 1 trượt pháp lý nào cũng làm sai lệch toàn bộ KH 2026.</div>
+    <div class="di-date">Trigger: BCTC Q3/26</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Áp lực dilution sau thưởng 100%</div><div class="di-imp">TB</div></div>
+    <div class="di-desc">Phát hành 4,1 tỷ CP mới. Trong ngắn hạn, lực bán chốt lời sau ngày giao dịch không hưởng quyền có thể đè giá.</div>
+    <div class="di-date">Sau ngày GDKHQ T7/26</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Lãi suất tăng &amp; thanh khoản hệ thống</div><div class="di-imp">TB</div></div>
+    <div class="di-desc">Dư nợ 141,5 nghìn tỷ. Nếu SBV tăng lãi suất 50bps để bảo vệ tỷ giá, chi phí lãi vay tăng ~700 tỷ/năm.</div>
+    <div class="di-date">Quyết định SBV: T7/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Phụ thuộc dòng tiền cho Vingroup mẹ</div><div class="di-imp">TB</div></div>
+    <div class="di-desc">VHM là "máy bơm" tiền cho VIC để cấp vốn VinFast. Cổ tức &amp; giao dịch nội bộ cần theo dõi sát.</div>
+    <div class="di-date">Theo dõi BCTC HN VIC quý</div>
+   </div>
+  </div>
+ </div>
+
+ <!-- BOTTOM LINE -->
+ <div class="bottom">
+  <div class="bl-h">Kết Luận · Bottom Line</div>
+  <div class="bl-sub">Rating · Verdict · Định vị Danh Mục</div>
+
+  <div class="rating-bar">
+   <div class="rb-seg">Strong Buy</div>
+   <div class="rb-seg active">Buy / Accumulate</div>
+   <div class="rb-seg">Hold</div>
+   <div class="rb-seg">Sell</div>
+   <div class="rb-seg">Strong Sell</div>
+  </div>
+
+  <div class="verdict">
+   <div class="v-tag">BUY<span class="sub">Accumulate</span></div>
+   <div class="v-text">
+    VHM hiện là <strong>tài sản chất lượng cao đang giảm giá</strong>: cổ phiếu đã điều chỉnh −29% từ ATH trong khi nội tại tốt hơn bao giờ hết. P/E forward 11x, D/E 0,60, ROE 13,2%, backlog 201,6 nghìn tỷ — không có lựa chọn BĐS Việt Nam nào tốt hơn ở mặt bằng định giá này. Câu chuyện 12 tháng tới được dẫn dắt bởi Cần Giờ + Hải Vân Bay + Royal Island GĐ3, đủ sức kéo LN lên 60 nghìn tỷ.
+    <br><br>
+    <strong>Khuyến nghị Namanhsuit:</strong> <strong>Mua dải 95–110k</strong>, tỷ trọng core 6–8% danh mục. Giá mục tiêu 12 tháng <strong>148k–160k</strong> (P/E forward 13x x EPS 11.800đ). Stop-loss 88k (dưới hỗ trợ Mar-26). Mua thêm nếu (1) Cần Giờ chính thức mở bán đúng tiến độ Q3, (2) FTSE EM final review tích cực, (3) SBV phát tín hiệu giảm lãi suất.
+   </div>
+  </div>
+ </div>
+
+</section>
+
+<footer>
+ <div>Namanhsuit Research Desk · VHM Risk Score Report</div>
+ <div>Generated 24/05/2026 · Data: HOSE, Vietstock, simplywall, znews, cafef, VHM IR</div>
+</footer>
+
+<script>
+function copyReport(){
+ const txt = `
+═══════════════════════════════════════════════════════
+VHM · VINHOMES JSC · BÁO CÁO ĐIỂM RỦI RO
+Cập nhật: 24/05/2026 · Nguồn: Namanhsuit Research
+═══════════════════════════════════════════════════════
+
+[GIÁ] 107.200 VND · ATH 150.900 (08/01/26) · ▼ −28,96%
+[VỐN HÓA] ~18,7 tỷ USD
+[ĐIỂM RỦI RO TỔNG HỢP] 38/100 — RỦI RO THẤP
+
+──────────────────────────────────────────────────────
+CHỈ TIÊU CHÍNH
+──────────────────────────────────────────────────────
+• P/E TTM:           17,9x   (Forward 11,0x)
+• P/B:                2,1x
+• Nợ / VCSH:          0,60x
+• Current Ratio:      1,32x
+• ROE:               13,2%
+• ROIC:               3,12%
+• DT 2025:           153,3 nghìn tỷ  (+49,8%)
+• LN sau thuế 2025:   42,1 nghìn tỷ  (+50,1%)
+• DT Q1/2026:         65,1 nghìn tỷ  (+315%)
+• LN Q1/2026:         25,6 nghìn tỷ  (+866%)
+• Booking Q1/26:      81,7 nghìn tỷ  (+133%)
+• Unrecognized sales:201,6 nghìn tỷ  (+68%)
+
+──────────────────────────────────────────────────────
+PHÂN RÃ ĐIỂM RỦI RO  (35 / 35 / 30)
+──────────────────────────────────────────────────────
+• Định giá          12/35   (34%)  ▮▮▮░░░░░░░  Đạt
+• Sức khỏe TC       18/35   (51%)  ▮▮▮▮▮░░░░░  Cẩn trọng
+• Tăng trưởng        8/30   (27%)  ▮▮▮░░░░░░░  Đạt
+TỔNG               38/100   (38%)  ─ Rủi ro thấp
+
+──────────────────────────────────────────────────────
+KẾ HOẠCH 2026 (ĐHĐCĐ 21/04/26)
+──────────────────────────────────────────────────────
+• Doanh thu:    285.000 tỷ  (+86%)
+• LN sau thuế:   60.000 tỷ  (+42,5%)  ATH ngành
+• Cổ tức tiền:   60% (6.000đ/CP)
+• Thưởng CP:     100% — 4,1 tỷ CP mới
+• Vốn điều lệ:   80.000+ tỷ sau phát hành
+
+──────────────────────────────────────────────────────
+PIPELINE DỰ ÁN
+──────────────────────────────────────────────────────
+• Green Paradise (Cần Giờ): 2.870 ha · mở bán Q3/26
+• Hải Vân Bay:              hấp thụ 90% sau 5 tuần
+• Royal Island GĐ3:         385 ha · mở bán Q2/26
+• Vũ Yên + Long Beach:      ~1.200 ha · pipeline 2027
+• Tổng quỹ đất sẵn sàng:    16.800+ ha (#1 VN)
+
+──────────────────────────────────────────────────────
+XÚC TÁC (12T tới)
+──────────────────────────────────────────────────────
+1. Mở bán Cần Giờ Q3/26              [Rất cao]
+2. Cổ tức 60% TM + thưởng 100% CP    [Cao]
+3. FTSE EM final review T9/26        [Cao]
+4. Royal Island GĐ3 + Ocean City BG  [Cao]
+5. Hạ lãi suất nhà ở SBV             [TB-Cao]
+
+──────────────────────────────────────────────────────
+RỦI RO (12T tới)
+──────────────────────────────────────────────────────
+1. Hấp thụ thị trường chậm 20–25%     [Cao]
+2. Slippage tiến độ Cần Giờ           [Cao]
+3. Dilution sau thưởng 100%           [TB]
+4. Lãi suất tăng & thanh khoản        [TB]
+5. Dòng tiền chạy về Vingroup mẹ      [TB]
+
+──────────────────────────────────────────────────────
+KẾT LUẬN
+──────────────────────────────────────────────────────
+RATING: BUY / ACCUMULATE
+
+Mua dải 95–110k, tỷ trọng core 6–8% danh mục.
+Giá mục tiêu 12T: 148k–160k (P/E fwd 13x · EPS 11.800).
+Stop-loss: 88k (dưới hỗ trợ Mar-26).
+Mua thêm khi:
+ (1) Cần Giờ mở bán đúng tiến độ Q3/26
+ (2) FTSE EM final review tích cực
+ (3) SBV phát tín hiệu giảm lãi suất.
+
+═══════════════════════════════════════════════════════
+© Namanhsuit Research · namanhsuit@gmail.com
+═══════════════════════════════════════════════════════`;
+ navigator.clipboard.writeText(txt.trim()).then(()=>{
+  const b = document.getElementById('copyBtn');
+  const o = b.textContent;
+  b.textContent='✓ Đã sao chép';
+  b.style.background='#3fd17a';
+  b.style.color='#08090d';
+  b.style.borderColor='#3fd17a';
+  setTimeout(()=>{b.textContent=o;b.style.background='';b.style.color='';b.style.borderColor=''},1800);
+ }).catch(err=>{
+  alert('Không sao chép được: '+err);
+ });
+}
+</script>
+
+</body>
+</html>

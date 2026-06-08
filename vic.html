@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIC · Vingroup · Báo Cáo Điểm Rủi Ro · T5/2026</title>
+<style>
+@font-face{font-family:'SVN-Recoleta';src:url('./fonts/SVN-Recoleta%20Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Recoleta';src:url('./fonts/SVN-Recoleta%20SemiBold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20SemiBold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Black.otf') format('opentype');font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy%20Light.otf') format('opentype');font-weight:300;font-style:normal;font-display:swap}
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+ --bg:#08090d;
+ --panel:#0d0f15;
+ --panel2:#11141c;
+ --line:#1d2230;
+ --line2:#262c3d;
+ --ink:#e9ecf3;
+ --ink2:#9aa3b8;
+ --ink3:#5d6478;
+ --green:#3fd17a;
+ --green-d:#1f7a48;
+ --red:#ff5d6c;
+ --red-d:#7a1f2a;
+ --amber:#f6b94a;
+ --amber-d:#7a5a1f;
+ --accent:#7aa2ff;
+ --accent-d:#2c3d6e;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:'SVN-Gilroy',-apple-system,sans-serif;font-weight:400;letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+.data,.num,.recoleta{font-family:'SVN-Recoleta',Georgia,serif;font-weight:700;letter-spacing:-.01em}
+body{padding:32px 36px 40px;min-height:100vh}
+.page{max-width:1200px;margin:0 auto 28px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 30px;position:relative;box-shadow:0 30px 60px -40px rgba(0,0,0,.8)}
+
+/* === HEADER / STOCK BAR === */
+.stockbar{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:22px;gap:24px;flex-wrap:wrap}
+.stk-left{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.ticker{font-family:'SVN-Recoleta';font-size:38px;font-weight:700;letter-spacing:-.02em}
+.ticker .dot{color:var(--green);font-size:14px;vertical-align:middle;margin-right:8px}
+.company{font-size:13px;color:var(--ink2);font-weight:500;text-transform:uppercase;letter-spacing:.14em}
+.tag{display:inline-block;font-size:10px;padding:4px 9px;border:1px solid var(--line2);border-radius:4px;color:var(--ink2);letter-spacing:.12em;text-transform:uppercase;margin-left:6px}
+.stk-mid{display:flex;align-items:baseline;gap:24px}
+.price{font-family:'SVN-Recoleta';font-size:42px;font-weight:700}
+.price .unit{font-size:14px;color:var(--ink2);font-family:'SVN-Gilroy';font-weight:500;margin-left:6px}
+.change{font-family:'SVN-Recoleta';font-size:16px;color:var(--red);font-weight:700}
+.change.up{color:var(--green)}
+.stk-right{display:flex;gap:10px;align-items:center}
+.btn{font-family:'SVN-Gilroy';font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--line2);border-radius:6px;background:transparent;color:var(--ink);cursor:pointer;transition:all .15s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.primary:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+/* === MASTER GRID PAGE 1 === */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;margin-bottom:24px}
+
+/* RISK GAUGE */
+.gauge-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between}
+.card-label{font-size:10px;color:var(--ink3);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:6px}
+.card-title{font-family:'SVN-Recoleta';font-size:20px;font-weight:600;margin-bottom:18px}
+.gauge-wrap{display:flex;align-items:center;gap:24px}
+.gauge-svg{flex-shrink:0}
+.gauge-info{flex:1}
+.gauge-score{font-family:'SVN-Recoleta';font-size:64px;font-weight:700;line-height:1;color:var(--amber)}
+.gauge-score .of{font-size:24px;color:var(--ink3);font-weight:600}
+.gauge-label{font-family:'SVN-Recoleta';font-size:18px;color:var(--amber);font-weight:600;margin-top:6px}
+.gauge-desc{font-size:12px;color:var(--ink2);line-height:1.6;margin-top:10px}
+
+/* KPI STRIP */
+.kpi-strip{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}
+.kpi{display:flex;flex-direction:column;gap:4px;padding:8px 0;border-left:2px solid var(--line2);padding-left:14px}
+.kpi.good{border-left-color:var(--green)}
+.kpi.bad{border-left-color:var(--red)}
+.kpi.warn{border-left-color:var(--amber)}
+.kpi .k{font-size:10px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.kpi .v{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;line-height:1.1}
+.kpi .s{font-size:11px;color:var(--ink2);font-weight:500}
+.kpi.good .v{color:var(--green)}
+.kpi.bad .v{color:var(--red)}
+.kpi.warn .v{color:var(--amber)}
+
+/* PRICE CHART */
+.chart-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:24px}
+.chart-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.chart-svg{width:100%;height:240px;display:block}
+.chart-legend{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2);font-weight:500}
+.lg .sw{width:18px;height:2px;background:var(--accent)}
+.lg .sw.dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.lg .sw.dot.red{background:var(--red)}
+.lg .sw.dot.amber{background:var(--amber)}
+
+/* SECTION HEADER */
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;margin:6px 0 14px}
+.sec-h .t{font-family:'SVN-Recoleta';font-size:22px;font-weight:600}
+.sec-h .tt{font-size:11px;color:var(--ink3);letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+
+/* METRIC CARDS GRID */
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.m-card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+.m-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--ink3)}
+.m-card.good::before{background:var(--green)}
+.m-card.bad::before{background:var(--red)}
+.m-card.warn::before{background:var(--amber)}
+.m-card .mt{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.m-card .mn{font-size:11px;color:var(--ink2);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.m-card .ms{font-size:9px;padding:3px 7px;border-radius:3px;font-weight:700;letter-spacing:.1em}
+.m-card.good .ms{background:rgba(63,209,122,.12);color:var(--green)}
+.m-card.bad .ms{background:rgba(255,93,108,.12);color:var(--red)}
+.m-card.warn .ms{background:rgba(246,185,74,.12);color:var(--amber)}
+.m-card .mv{font-family:'SVN-Recoleta';font-size:26px;font-weight:700;line-height:1.1}
+.m-card .mb{font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.5}
+.m-card .mq{font-size:10px;color:var(--ink3);margin-top:6px;font-style:italic}
+
+/* SCORE BREAKDOWN */
+.scorebar{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-top:6px}
+.sb-row{display:grid;grid-template-columns:170px 1fr 110px;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.sb-row:last-child{border-bottom:none}
+.sb-name{display:flex;flex-direction:column;gap:2px}
+.sb-name .nm{font-family:'SVN-Recoleta';font-size:14px;font-weight:600}
+.sb-name .wt{font-size:10px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase}
+.sb-track{height:12px;background:var(--line);border-radius:6px;overflow:hidden;position:relative}
+.sb-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-family:'SVN-Recoleta';font-size:9px;font-weight:700}
+.sb-fill.red{background:linear-gradient(90deg,#7a1f2a,var(--red))}
+.sb-fill.amber{background:linear-gradient(90deg,#7a5a1f,var(--amber))}
+.sb-fill.green{background:linear-gradient(90deg,#1f7a48,var(--green))}
+.sb-score{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;text-align:right}
+.sb-score .of{font-size:13px;color:var(--ink3)}
+.sb-total{display:grid;grid-template-columns:170px 1fr 110px;gap:14px;align-items:center;padding-top:14px;margin-top:6px;border-top:2px solid var(--line2)}
+.sb-total .nm{font-family:'SVN-Recoleta';font-size:16px;font-weight:700;color:var(--amber)}
+.sb-total .sb-score{color:var(--amber);font-size:26px}
+
+/* === PAGE 2 === */
+.page2-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.page2-head .h1{font-family:'SVN-Recoleta';font-size:30px;font-weight:700}
+.page2-head .h2{font-size:11px;color:var(--ink3);letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-bottom:8px;background:var(--panel2);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.qtable th{font-size:10px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:14px 12px;text-align:right;border-bottom:1px solid var(--line2);background:var(--panel)}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:13px 12px;text-align:right;border-bottom:1px solid var(--line);font-family:'SVN-Recoleta';font-size:14px;font-weight:700}
+.qtable td:first-child{text-align:left;font-family:'SVN-Gilroy';font-weight:600;font-size:12px;color:var(--ink2);letter-spacing:.05em;text-transform:uppercase}
+.qtable tr:last-child td{border-bottom:none}
+.qtable tr:last-child td{color:var(--amber)}
+.qtable .pos{color:var(--green)}
+.qtable .neg{color:var(--red)}
+
+/* EARNINGS PANEL */
+.split-2{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin:22px 0}
+.panel{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.panel-h{font-family:'SVN-Recoleta';font-size:18px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.panel-h .pill{font-size:9px;font-family:'SVN-Gilroy';font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.12em;text-transform:uppercase;background:rgba(122,162,255,.12);color:var(--accent)}
+.panel-h .pill.green{background:rgba(63,209,122,.12);color:var(--green)}
+.earn-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.eg{padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.eg .k{font-size:10px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.eg .v{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;line-height:1}
+.eg .d{font-size:11px;margin-top:4px;font-weight:600}
+.eg .d.up{color:var(--green)}
+.eg .d.dn{color:var(--red)}
+.earn-note{font-size:12px;color:var(--ink2);line-height:1.7;margin-top:8px}
+.earn-note strong{color:var(--ink);font-weight:600}
+
+/* CATALYSTS vs RISKS DUAL */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0 24px}
+.dual-col{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.dual-col.cat{border-top:2px solid var(--green)}
+.dual-col.risk{border-top:2px solid var(--red)}
+.dual-h{font-family:'SVN-Recoleta';font-size:18px;font-weight:600;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.dual-h .pill{font-size:10px;font-family:'SVN-Gilroy';font-weight:700;padding:4px 10px;border-radius:4px;letter-spacing:.12em;text-transform:uppercase}
+.dual-col.cat .pill{background:rgba(63,209,122,.12);color:var(--green)}
+.dual-col.risk .pill{background:rgba(255,93,108,.12);color:var(--red)}
+.dual-item{padding:12px 0;border-bottom:1px dashed var(--line)}
+.dual-item:last-child{border-bottom:none}
+.di-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px}
+.di-name{font-family:'SVN-Gilroy';font-size:13px;font-weight:700;color:var(--ink)}
+.di-imp{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink3)}
+.dual-col.cat .di-imp{color:var(--green)}
+.dual-col.risk .di-imp{color:var(--red)}
+.di-desc{font-size:11.5px;color:var(--ink2);line-height:1.6}
+.di-date{font-size:10px;color:var(--ink3);margin-top:3px;letter-spacing:.05em}
+
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,var(--panel2) 0%,var(--panel) 100%);border:1px solid var(--line2);border-radius:14px;padding:26px 28px;margin-top:6px;position:relative;overflow:hidden}
+.bottom::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--amber),var(--red))}
+.bl-h{font-family:'SVN-Recoleta';font-size:22px;font-weight:700;margin-bottom:6px}
+.bl-sub{font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+.rating-bar{display:flex;height:36px;border-radius:6px;overflow:hidden;border:1px solid var(--line);margin-bottom:18px;position:relative}
+.rb-seg{flex:1;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);background:var(--panel);border-right:1px solid var(--line);position:relative}
+.rb-seg:last-child{border-right:none}
+.rb-seg.active{background:var(--amber);color:#1a1a1a}
+.rb-seg.active::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--amber)}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
+.v-tag{font-family:'SVN-Recoleta';font-size:42px;font-weight:700;color:var(--amber);line-height:1;border:2px solid var(--amber);padding:14px 22px;border-radius:8px;text-align:center}
+.v-tag .sub{font-size:11px;font-family:'SVN-Gilroy';font-weight:700;color:var(--amber);letter-spacing:.14em;display:block;margin-top:6px}
+.v-text{font-size:13.5px;color:var(--ink);line-height:1.75}
+.v-text strong{color:var(--amber);font-weight:700}
+
+footer{max-width:1200px;margin:24px auto 0;display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase}
+
+/* PRINT */
+@media print{
+ body{padding:0}
+ .page{box-shadow:none;page-break-after:always;margin:0;border-radius:0;border:none}
+ .stk-right{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<section class="page" id="page1">
+
+ <!-- STOCK BAR -->
+ <div class="stockbar">
+  <div class="stk-left">
+   <div>
+    <div class="ticker"><span class="dot">●</span>VIC<span class="tag">HOSE</span></div>
+    <div class="company">Tập Đoàn Vingroup · Vietnam Conglomerate</div>
+   </div>
+  </div>
+  <div class="stk-mid">
+   <div>
+    <div class="price">218.700<span class="unit">VND</span></div>
+    <div class="change">▼ 13.300 (−5,73% so với ATH)</div>
+   </div>
+  </div>
+  <div class="stk-right">
+   <button class="btn" onclick="window.print()">In PDF</button>
+   <button class="btn primary" id="copyBtn" onclick="copyReport()">Sao chép báo cáo</button>
+  </div>
+ </div>
+
+ <!-- HERO: GAUGE + KPI -->
+ <div class="hero">
+  <div class="gauge-card">
+   <div>
+    <div class="card-label">Điểm Rủi Ro Tổng Hợp</div>
+    <div class="card-title">Risk Score Composite · 0–100</div>
+   </div>
+   <div class="gauge-wrap">
+    <svg class="gauge-svg" viewBox="0 0 220 130" width="220" height="130">
+     <defs>
+      <linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+       <stop offset="0%" stop-color="#3fd17a"/>
+       <stop offset="40%" stop-color="#f6b94a"/>
+       <stop offset="75%" stop-color="#ff7a5d"/>
+       <stop offset="100%" stop-color="#ff5d6c"/>
+      </linearGradient>
+     </defs>
+     <!-- gauge arc bg -->
+     <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#1d2230" stroke-width="16" stroke-linecap="round"/>
+     <!-- gauge arc filled -->
+     <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="url(#ggrad)" stroke-width="16" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="0" opacity=".88"/>
+     <!-- needle at 68 (out of 100) — angle = 180*0.68 = 122.4° → from left (180°) -->
+     <!-- needle from center 110,110 -->
+     <g transform="rotate(-58 110 110)">
+      <line x1="110" y1="110" x2="110" y2="32" stroke="#e9ecf3" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="110" cy="110" r="7" fill="#08090d" stroke="#e9ecf3" stroke-width="2"/>
+     </g>
+     <!-- ticks -->
+     <text x="20" y="125" font-family="SVN-Recoleta" font-size="9" fill="#5d6478" text-anchor="middle">0</text>
+     <text x="200" y="125" font-family="SVN-Recoleta" font-size="9" fill="#5d6478" text-anchor="middle">100</text>
+     <text x="110" y="22" font-family="SVN-Recoleta" font-size="9" fill="#5d6478" text-anchor="middle">50</text>
+    </svg>
+    <div class="gauge-info">
+     <div class="gauge-score">68<span class="of">/100</span></div>
+     <div class="gauge-label">RỦI RO CAO</div>
+     <div class="gauge-desc">Định giá kéo dài, đòn bẩy nặng và lỗ kéo dài tại VinFast là 3 yếu tố chính. Lợi nhuận Q1 +150% chưa đủ bù cho rủi ro cấu trúc.</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="kpi-strip">
+   <div class="kpi bad"><div class="k">Vốn hóa</div><div class="v">~64 tỷ USD</div><div class="s">≈ 1.620.000 tỷ VND · #1 HOSE</div></div>
+   <div class="kpi warn"><div class="k">P/E (TTM)</div><div class="v">44,2x</div><div class="s">Cao vs trung bình ngành ~18x</div></div>
+   <div class="kpi good"><div class="k">DT 2025</div><div class="v">331,8 nghìn tỷ</div><div class="s">+75,5% YoY</div></div>
+   <div class="kpi warn"><div class="k">LN sau thuế 2025</div><div class="v">10,7 nghìn tỷ</div><div class="s">−5,7% YoY</div></div>
+   <div class="kpi bad"><div class="k">Tỷ lệ D/E</div><div class="v">2,23x</div><div class="s">Nợ vay ~338 nghìn tỷ</div></div>
+   <div class="kpi bad"><div class="k">ROIC</div><div class="v">0,59%</div><div class="s">ROE 7,30% · hiệu quả vốn thấp</div></div>
+  </div>
+ </div>
+
+ <!-- PRICE CHART -->
+ <div class="chart-card">
+  <div class="chart-head">
+   <div>
+    <div class="card-label">Diễn biến giá 12 tháng</div>
+    <div class="card-title">Price Action · T5/2025 — T5/2026</div>
+   </div>
+   <div style="text-align:right">
+    <div style="font-family:'SVN-Recoleta';font-size:18px;font-weight:700;color:var(--green)">+217%</div>
+    <div style="font-size:10px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase">12-tháng (TWR)</div>
+   </div>
+  </div>
+  <svg class="chart-svg" viewBox="0 0 1140 240" preserveAspectRatio="none">
+   <defs>
+    <linearGradient id="pgrad" x1="0" x2="0" y1="0" y2="1">
+     <stop offset="0%" stop-color="#7aa2ff" stop-opacity=".35"/>
+     <stop offset="100%" stop-color="#7aa2ff" stop-opacity="0"/>
+    </linearGradient>
+   </defs>
+   <!-- y grid -->
+   <g stroke="#1d2230" stroke-width="1">
+    <line x1="40" y1="30" x2="1130" y2="30"/>
+    <line x1="40" y1="80" x2="1130" y2="80"/>
+    <line x1="40" y1="130" x2="1130" y2="130"/>
+    <line x1="40" y1="180" x2="1130" y2="180"/>
+    <line x1="40" y1="220" x2="1130" y2="220"/>
+   </g>
+   <!-- y labels -->
+   <g font-family="SVN-Recoleta" font-size="9" fill="#5d6478">
+    <text x="34" y="34" text-anchor="end">240k</text>
+    <text x="34" y="84" text-anchor="end">190k</text>
+    <text x="34" y="134" text-anchor="end">140k</text>
+    <text x="34" y="184" text-anchor="end">90k</text>
+    <text x="34" y="224" text-anchor="end">40k</text>
+   </g>
+   <!-- x labels (months) -->
+   <g font-family="SVN-Gilroy" font-size="9" font-weight="600" fill="#5d6478" letter-spacing="1">
+    <text x="50" y="235">T5/25</text>
+    <text x="140" y="235">T6</text>
+    <text x="230" y="235">T7</text>
+    <text x="320" y="235">T8</text>
+    <text x="410" y="235">T9</text>
+    <text x="500" y="235">T10</text>
+    <text x="590" y="235">T11</text>
+    <text x="680" y="235">T12</text>
+    <text x="770" y="235">T1/26</text>
+    <text x="860" y="235">T2</text>
+    <text x="950" y="235">T3</text>
+    <text x="1040" y="235">T4</text>
+    <text x="1110" y="235" text-anchor="end">T5/26</text>
+   </g>
+   <!-- area fill — 12 month VIC price approx (low ~69k → high 232k) -->
+   <path d="M 50 200 L 140 198 L 230 195 L 320 187 L 410 175 L 500 160 L 590 140 L 680 110 L 770 78 L 860 62 L 950 50 L 1040 38 L 1100 48 L 1100 220 L 50 220 Z" fill="url(#pgrad)"/>
+   <!-- price line -->
+   <path d="M 50 200 L 140 198 L 230 195 L 320 187 L 410 175 L 500 160 L 590 140 L 680 110 L 770 78 L 860 62 L 950 50 L 1040 38 L 1100 48"
+         fill="none" stroke="#7aa2ff" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+   <!-- markers -->
+   <!-- M1: VinFast 1 triệu xe (T8/25) — green -->
+   <circle cx="320" cy="187" r="5.5" fill="#08090d" stroke="#3fd17a" stroke-width="2.4"/>
+   <line x1="320" y1="180" x2="320" y2="55" stroke="#3fd17a" stroke-dasharray="3 3" stroke-width="1" opacity=".6"/>
+   <rect x="240" y="36" width="160" height="22" rx="3" fill="#0d0f15" stroke="#3fd17a" stroke-width="1"/>
+   <text x="320" y="51" font-family="SVN-Gilroy" font-size="10" font-weight="600" fill="#3fd17a" text-anchor="middle">VF: 100k xe T7/Q3-25</text>
+   <!-- M2: Vinpearl IPO (T11/25) — amber -->
+   <circle cx="590" cy="140" r="5.5" fill="#08090d" stroke="#f6b94a" stroke-width="2.4"/>
+   <line x1="590" y1="133" x2="590" y2="72" stroke="#f6b94a" stroke-dasharray="3 3" stroke-width="1" opacity=".6"/>
+   <rect x="510" y="52" width="160" height="22" rx="3" fill="#0d0f15" stroke="#f6b94a" stroke-width="1"/>
+   <text x="590" y="67" font-family="SVN-Gilroy" font-size="10" font-weight="600" fill="#f6b94a" text-anchor="middle">Vinpearl niêm yết T1/26</text>
+   <!-- M3: ATH 232k (T5/26) — green -->
+   <circle cx="1040" cy="38" r="6.5" fill="#08090d" stroke="#3fd17a" stroke-width="2.4"/>
+   <rect x="940" y="6" width="160" height="22" rx="3" fill="#0d0f15" stroke="#3fd17a" stroke-width="1"/>
+   <text x="1020" y="21" font-family="SVN-Gilroy" font-size="10" font-weight="600" fill="#3fd17a" text-anchor="middle">ATH 232.000đ · 14/05</text>
+   <!-- M4: Pullback (May 22) — red -->
+   <circle cx="1100" cy="48" r="5.5" fill="#08090d" stroke="#ff5d6c" stroke-width="2.4"/>
+   <text x="1085" y="42" font-family="SVN-Recoleta" font-size="11" font-weight="700" fill="#ff5d6c" text-anchor="end">218.7k</text>
+  </svg>
+  <div class="chart-legend">
+   <div class="lg"><span class="sw"></span>Giá đóng cửa</div>
+   <div class="lg"><span class="sw dot"></span>Sự kiện tích cực</div>
+   <div class="lg"><span class="sw dot amber"></span>Sự kiện trung tính</div>
+   <div class="lg"><span class="sw dot red"></span>Điều chỉnh kỹ thuật</div>
+   <div class="lg" style="margin-left:auto;color:var(--ink3)">Nguồn: HOSE · stockanalysis.com</div>
+  </div>
+ </div>
+
+ <!-- VALUATION -->
+ <div class="sec-h">
+  <div class="t">Định giá · Valuation</div>
+  <div class="tt">Trọng số 35% · 6 chỉ số</div>
+ </div>
+ <div class="metric-grid">
+  <div class="m-card bad">
+   <div class="mt"><div class="mn">P/E TTM</div><div class="ms">RỦI RO</div></div>
+   <div class="mv">44,2x</div>
+   <div class="mb">Cao gấp ~2,5 lần TB ngành (~18x). Mức định giá đã phản ánh kỳ vọng "VinFast hòa vốn 2026".</div>
+   <div class="mq">Yahoo · stockanalysis · T5/26</div>
+  </div>
+  <div class="m-card bad">
+   <div class="mt"><div class="mn">P/E Forward</div><div class="ms">RỦI RO</div></div>
+   <div class="mv">79,1x</div>
+   <div class="mb">EPS 2026E bị hạ từ 1.829 xuống 1.472 VND/CP. Mức forward cao bất thường.</div>
+   <div class="mq">Simply Wall St · Apr-26</div>
+  </div>
+  <div class="m-card warn">
+   <div class="mt"><div class="mn">P/B</div><div class="ms">CẨN TRỌNG</div></div>
+   <div class="mv">5,1x</div>
+   <div class="mb">Vượt trung vị 5 năm (3,2x). Mặt bằng định giá tiệm cận đỉnh chu kỳ.</div>
+   <div class="mq">Vietstock · gurufocus</div>
+  </div>
+  <div class="m-card bad">
+   <div class="mt"><div class="mn">EV/EBITDA</div><div class="ms">RỦI RO</div></div>
+   <div class="mv">22,8x</div>
+   <div class="mb">Mức rất cao cho 1 tập đoàn BĐS-công nghiệp. Khoảng cách lớn với ngành thực địa.</div>
+   <div class="mq">finbox · Q1-26</div>
+  </div>
+  <div class="m-card warn">
+   <div class="mt"><div class="mn">PEG</div><div class="ms">CẨN TRỌNG</div></div>
+   <div class="mv">1,8x</div>
+   <div class="mb">Tăng trưởng LN dự phóng 25%/năm, nhưng giá đã chạy trước rất xa.</div>
+   <div class="mq">Tự tính (P/E ÷ g)</div>
+  </div>
+  <div class="m-card bad">
+   <div class="mt"><div class="mn">Khuyến nghị</div><div class="ms">SELL</div></div>
+   <div class="mv">−53,5%</div>
+   <div class="mb">Downside trung bình từ giá mục tiêu của tổ chức quốc tế. 0 BUY · 1 SELL.</div>
+   <div class="mq">marketscreener · 22/05/26</div>
+  </div>
+ </div>
+
+ <!-- FINANCIAL HEALTH -->
+ <div class="sec-h">
+  <div class="t">Sức Khỏe Tài Chính · Financial Health</div>
+  <div class="tt">Trọng số 35% · 6 chỉ số</div>
+ </div>
+ <div class="metric-grid">
+  <div class="m-card bad">
+   <div class="mt"><div class="mn">Nợ / Vốn CSH</div><div class="ms">RỦI RO</div></div>
+   <div class="mv">2,23x</div>
+   <div class="mb">Nợ vay 338,5 nghìn tỷ – tiền mặt 81,8 nghìn tỷ = nợ ròng âm 256,7 nghìn tỷ.</div>
+   <div class="mq">Bảng CĐKT 2025 · gurufocus</div>
+  </div>
+  <div class="m-card bad">
+   <div class="mt"><div class="mn">ROIC</div><div class="ms">RỦI RO</div></div>
+   <div class="mv">0,59%</div>
+   <div class="mb">Hiệu quả vốn rất thấp. Mỗi 100đ vốn đầu tư chỉ tạo ra 0,6đ lợi nhuận hoạt động.</div>
+   <div class="mq">Vingroup AR-2025</div>
+  </div>
+  <div class="m-card warn">
+   <div class="mt"><div class="mn">ROE</div><div class="ms">CẨN TRỌNG</div></div>
+   <div class="mv">7,30%</div>
+   <div class="mb">Thấp hơn TB ngành BĐS Việt (~12%). Đòn bẩy cao nhưng chưa chuyển thành ROE.</div>
+   <div class="mq">infrontanalytics</div>
+  </div>
+  <div class="m-card bad">
+   <div class="mt"><div class="mn">VinFast Net Loss 2025</div><div class="ms">RỦI RO</div></div>
+   <div class="mv">99,6 nghìn tỷ</div>
+   <div class="mb">≈ 3,96 tỷ USD. Going-concern lưu ý từ kiểm toán. Cam kết tài trợ 50.000 tỷ từ ông Vượng.</div>
+   <div class="mq">VFS 20-F · SEC filing</div>
+  </div>
+  <div class="m-card warn">
+   <div class="mt"><div class="mn">Nghĩa vụ trả nợ 2026</div><div class="ms">CẨN TRỌNG</div></div>
+   <div class="mv">34,6 nghìn tỷ</div>
+   <div class="mb">Chỉ riêng VinFast. Phụ thuộc vốn mới và bảo lãnh từ Vingroup mẹ.</div>
+   <div class="mq">VFS 20-F · FY2025</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Tiền mặt &amp; tương đương</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">81,8 nghìn tỷ</div>
+   <div class="mb">Đệm thanh khoản khá tốt nhờ thu BĐS Vinhomes và dòng tiền IPO Vinpearl.</div>
+   <div class="mq">BCTC hợp nhất Q1-26</div>
+  </div>
+ </div>
+
+ <!-- GROWTH -->
+ <div class="sec-h">
+  <div class="t">Tăng Trưởng · Growth</div>
+  <div class="tt">Trọng số 30% · 6 chỉ số</div>
+ </div>
+ <div class="metric-grid">
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Doanh thu Q1/2026</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">+24,0%</div>
+   <div class="mb">104.352 tỷ đồng. Vinhomes + VinFast cùng tăng tốc, vượt kế hoạch quý.</div>
+   <div class="mq">Báo Pháp Luật · 28/04/26</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">LN sau thuế Q1/2026</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">+150%</div>
+   <div class="mb">5.611 tỷ đồng. Bùng nổ chủ yếu nhờ ghi nhận BĐS Vinhomes Hải Vân Bay.</div>
+   <div class="mq">Vietstock · cafebiz</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">VinFast Q1 bàn giao</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">58.577 xe</div>
+   <div class="mb">+61% YoY toàn cầu, trong đó VN 53.684 xe. Kỷ lục 3.520 xe/ngày 28/03.</div>
+   <div class="mq">VFS 6-K · CleanTechnica</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Xe máy điện Q1</div><div class="ms">ĐẠT</div></div>
+   <div class="mv">143.136 xe</div>
+   <div class="mb">Gấp 3,9 lần cùng kỳ. Phân khúc cận biên cao, hỗ trợ thị phần nội địa.</div>
+   <div class="mq">imotorbike news</div>
+  </div>
+  <div class="m-card good">
+   <div class="mt"><div class="mn">Vinhomes LN sau thuế Q1</div><div class="ms">VƯỢT</div></div>
+   <div class="mv">25,6 nghìn tỷ</div>
+   <div class="mb">+866% YoY. Doanh thu quy đổi 71,5 nghìn tỷ (+271%). Trụ cột lợi nhuận nhóm.</div>
+   <div class="mq">Vinhomes IR</div>
+  </div>
+  <div class="m-card warn">
+   <div class="mt"><div class="mn">Mục tiêu LN 2026</div><div class="ms">THAM VỌNG</div></div>
+   <div class="mv">35.000 tỷ</div>
+   <div class="mb">DT 485.000 tỷ. Yêu cầu tăng trưởng &gt;220% so với LN 2025 – mức rất cao.</div>
+   <div class="mq">ĐHĐCĐ Vingroup 2026</div>
+  </div>
+ </div>
+
+ <!-- SCORE BREAKDOWN -->
+ <div class="sec-h">
+  <div class="t">Phân Rã Điểm Rủi Ro · Score Breakdown</div>
+  <div class="tt">Tỷ trọng 35 / 35 / 30</div>
+ </div>
+ <div class="scorebar">
+  <div class="sb-row">
+   <div class="sb-name"><div class="nm">Định giá</div><div class="wt">Trọng số 35%</div></div>
+   <div class="sb-track"><div class="sb-fill red" style="width:80%">80%</div></div>
+   <div class="sb-score">28<span class="of">/35</span></div>
+  </div>
+  <div class="sb-row">
+   <div class="sb-name"><div class="nm">Sức khỏe TC</div><div class="wt">Trọng số 35%</div></div>
+   <div class="sb-track"><div class="sb-fill red" style="width:74%">74%</div></div>
+   <div class="sb-score">26<span class="of">/35</span></div>
+  </div>
+  <div class="sb-row">
+   <div class="sb-name"><div class="nm">Tăng trưởng</div><div class="wt">Trọng số 30%</div></div>
+   <div class="sb-track"><div class="sb-fill green" style="width:47%">47%</div></div>
+   <div class="sb-score">14<span class="of">/30</span></div>
+  </div>
+  <div class="sb-total">
+   <div class="sb-name"><div class="nm" style="color:var(--amber)">TỔNG ĐIỂM</div><div class="wt">Risk Composite</div></div>
+   <div class="sb-track"><div class="sb-fill amber" style="width:68%">68%</div></div>
+   <div class="sb-score">68<span class="of">/100</span></div>
+  </div>
+ </div>
+
+</section>
+
+<!-- ============ PAGE 2 ============ -->
+<section class="page" id="page2">
+
+ <div class="page2-head">
+  <div>
+   <div class="h1">Phân Tích Sâu · Catalysts &amp; Risks</div>
+   <div style="font-size:12px;color:var(--ink2);font-weight:500;margin-top:6px">Vingroup JSC · HOSE:VIC · Báo cáo nội bộ Namanhsuit · 24/05/2026</div>
+  </div>
+  <div class="h2">Trang 2/2 · Confidential</div>
+ </div>
+
+ <!-- QUARTERLY TABLE -->
+ <div class="sec-h">
+  <div class="t">Diễn biến theo Quý</div>
+  <div class="tt">Đơn vị: nghìn tỷ VND</div>
+ </div>
+ <table class="qtable">
+  <thead>
+   <tr>
+    <th>Chỉ tiêu</th>
+    <th>Q1/2025</th>
+    <th>Q2/2025</th>
+    <th>Q3/2025</th>
+    <th>Q4/2025</th>
+    <th>Q1/2026</th>
+    <th>YoY</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr>
+    <td>Doanh thu thuần</td>
+    <td>84,1</td>
+    <td>46,4</td>
+    <td>38,1</td>
+    <td>163,2</td>
+    <td>104,4</td>
+    <td class="pos">+24,1%</td>
+   </tr>
+   <tr>
+    <td>Lợi nhuận sau thuế</td>
+    <td>2,24</td>
+    <td>1,07</td>
+    <td>2,15</td>
+    <td>5,23</td>
+    <td>5,61</td>
+    <td class="pos">+150,4%</td>
+   </tr>
+   <tr>
+    <td>Biên LN ròng</td>
+    <td>2,7%</td>
+    <td>2,3%</td>
+    <td>5,6%</td>
+    <td>3,2%</td>
+    <td>5,4%</td>
+    <td class="pos">+2,7đ</td>
+   </tr>
+   <tr>
+    <td>VinFast giao xe (k chiếc)</td>
+    <td>36,3</td>
+    <td>43,6</td>
+    <td>51,2</td>
+    <td>69,5</td>
+    <td>58,6</td>
+    <td class="pos">+61,4%</td>
+   </tr>
+   <tr>
+    <td>Tỷ lệ nợ / VCSH</td>
+    <td>2,11x</td>
+    <td>2,18x</td>
+    <td>2,22x</td>
+    <td>2,23x</td>
+    <td>2,23x</td>
+    <td class="neg">+0,12x</td>
+   </tr>
+   <tr>
+    <td>Giá đóng cửa (k đồng)</td>
+    <td>74,8</td>
+    <td>91,3</td>
+    <td>128,5</td>
+    <td>168,0</td>
+    <td>218,7</td>
+    <td class="pos">+192,4%</td>
+   </tr>
+  </tbody>
+ </table>
+
+ <!-- EARNINGS & DELIVERY -->
+ <div class="split-2">
+  <div class="panel">
+   <div class="panel-h">Cập Nhật KQKD Mới Nhất<span class="pill green">Q1/2026 · Công bố 28/04</span></div>
+   <div class="earn-grid">
+    <div class="eg"><div class="k">Doanh thu</div><div class="v">104.352</div><div class="d up">+24,0% YoY · vượt KH</div></div>
+    <div class="eg"><div class="k">LN sau thuế</div><div class="v">5.611</div><div class="d up">+150,4% YoY · vượt KH</div></div>
+    <div class="eg"><div class="k">Vinhomes LN</div><div class="v">25.600</div><div class="d up">+866% YoY</div></div>
+    <div class="eg"><div class="k">VinFast LN</div><div class="v">−18.420</div><div class="d dn">Lỗ thu hẹp 12% QoQ</div></div>
+   </div>
+   <div class="earn-note">
+    <strong>Bóc tách:</strong> ~70% LN quý đến từ ghi nhận BĐS Vinhomes Hải Vân Bay (Đà Nẵng) và Vinhomes Royal Island giai đoạn 2. VinFast vẫn lỗ ~18,4 nghìn tỷ nhưng <strong>biên gộp đã dương lần đầu kể từ 2023</strong>, tín hiệu chuyển pha quan trọng. Vinpearl đóng góp ~3% nhờ mùa cao điểm.
+   </div>
+  </div>
+
+  <div class="panel">
+   <div class="panel-h">VinFast · Bàn Giao &amp; Thị Trường<span class="pill">Q1/2026 update</span></div>
+   <div class="earn-grid">
+    <div class="eg"><div class="k">Toàn cầu Q1</div><div class="v">58.577</div><div class="d up">+61,2% YoY</div></div>
+    <div class="eg"><div class="k">Việt Nam Q1</div><div class="v">53.684</div><div class="d up">VN dẫn dắt 91,6%</div></div>
+    <div class="eg"><div class="k">Xuất khẩu Q1</div><div class="v">4.893</div><div class="d up">Ấn Độ + Indonesia</div></div>
+    <div class="eg"><div class="k">Mục tiêu 2026</div><div class="v">300.000</div><div class="d up">+50% so 2025</div></div>
+   </div>
+   <div class="earn-note">
+    <strong>Điểm sáng:</strong> nhà máy Thoothukudi (Ấn Độ) ráp xe VF 6/VF 7, vượt Hyundai về EV tháng 1/26 với 431 xe. <strong>Cảnh báo:</strong> 12/05 công bố tách VFTP – mảng sản xuất tại VN, có thể tạo nhiễu kế toán cho Q2.
+   </div>
+  </div>
+ </div>
+
+ <!-- CATALYSTS vs RISKS -->
+ <div class="sec-h">
+  <div class="t">Xúc Tác vs Rủi Ro</div>
+  <div class="tt">12 tháng tới</div>
+ </div>
+ <div class="dual">
+  <div class="dual-col cat">
+   <div class="dual-h">Xúc Tác Tăng Giá<span class="pill">5 catalysts</span></div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">VinFast hòa vốn EBITDA Q4/2026</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">Biên gộp Q1 dương + sản lượng 300k xe đặt nền cho mục tiêu BEP cam kết bởi ông Phạm Nhật Vượng.</div>
+    <div class="di-date">Dự kiến Q4/2026 · Theo dõi quarterly delivery</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Vinhomes mở bán Vinhomes Cần Giờ</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">Mega-project 2.870 ha, ước doanh số booking 80–100 nghìn tỷ. Trụ cột LN 2026–2028.</div>
+    <div class="di-date">Mở bán đợt 1: Q3/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Vinpearl tăng tỷ trọng FOL</div><div class="di-imp">TB</div></div>
+    <div class="di-desc">Sau IPO T1/26, kỳ vọng nâng room ngoại lên 49% và niêm yết phái sinh, giải phóng giá trị ẩn.</div>
+    <div class="di-date">Quyết định ĐHĐCĐ bất thường · Q3/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">VinFast vào Indonesia full-scale</div><div class="di-imp">TB</div></div>
+    <div class="di-desc">Nhà máy Subang Q4/26. Thị trường EV ASEAN tăng &gt;40%/năm, biên cao hơn Việt Nam.</div>
+    <div class="di-date">Khánh thành: Q4/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">VN nâng hạng FTSE EM (final)</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">VIC tỷ trọng &gt;8% trong rổ VN. Ước dòng vốn ETF thụ động ~250–400 triệu USD vào VIC riêng.</div>
+    <div class="di-date">Review: T9/2026</div>
+   </div>
+  </div>
+
+  <div class="dual-col risk">
+   <div class="dual-h">Rủi Ro Giảm Giá<span class="pill">5 risks</span></div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Going-concern VinFast leo thang</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">Lỗ ròng 2025 ~3,96 tỷ USD, nghĩa vụ trả nợ 2026 ~1,38 tỷ USD. Nếu vốn mới chậm, áp lực bảo lãnh từ Vingroup mẹ.</div>
+    <div class="di-date">VFS 20-F audit note · 2025</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Định giá kéo dài</div><div class="di-imp">Cao</div></div>
+    <div class="di-desc">P/E forward 79x vs ngành 18x. Mọi cú trượt nhẹ về KQKD đều có thể kích hoạt re-rating −20% đến −30%.</div>
+    <div class="di-date">Trigger: BCTC Q2 (T7/26)</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Đòn bẩy nợ &amp; lãi suất</div><div class="di-imp">TB-Cao</div></div>
+    <div class="di-desc">Dư nợ 338,5 nghìn tỷ. Nếu SBV nâng lãi suất 50bps, chi phí lãi vay có thể tăng ~1.700 tỷ/năm.</div>
+    <div class="di-date">Quyết định SBV: tháng 7/2026</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Key-man &amp; conglomerate discount</div><div class="di-imp">TB</div></div>
+    <div class="di-desc">Phụ thuộc cao vào ông Phạm Nhật Vượng – cam kết tài trợ 50.000 tỷ. Tổ chức quốc tế đang định giá discount 20–25%.</div>
+    <div class="di-date">Rủi ro cấu trúc dài hạn</div>
+   </div>
+   <div class="dual-item">
+    <div class="di-top"><div class="di-name">Tách VFTP – nhiễu kế toán</div><div class="di-imp">TB</div></div>
+    <div class="di-desc">Công bố 12/05/26 tách mảng sản xuất VN. Có khả năng tạo one-off charge và làm méo biên gộp Q2.</div>
+    <div class="di-date">Hoàn tất: Q3/2026</div>
+   </div>
+  </div>
+ </div>
+
+ <!-- BOTTOM LINE -->
+ <div class="bottom">
+  <div class="bl-h">Kết Luận · Bottom Line</div>
+  <div class="bl-sub">Rating · Verdict · Định vị Danh Mục</div>
+
+  <div class="rating-bar">
+   <div class="rb-seg">Strong Buy</div>
+   <div class="rb-seg">Buy</div>
+   <div class="rb-seg active">Hold / Trim</div>
+   <div class="rb-seg">Sell</div>
+   <div class="rb-seg">Strong Sell</div>
+  </div>
+
+  <div class="verdict">
+   <div class="v-tag">HOLD<span class="sub">Trim &amp; Watch</span></div>
+   <div class="v-text">
+    VIC là <strong>câu chuyện tăng trưởng đẹp nhất Việt Nam 12 tháng qua (+217%)</strong>, nhưng giá đã chạy quá xa so với nội tại. Q1/2026 xác nhận pha chuyển mình: Vinhomes bùng nổ lợi nhuận, VinFast biên gộp dương lần đầu. Tuy vậy, P/E forward 79x, D/E 2,23x và rủi ro going-concern của VinFast khiến risk/reward hiện tại nghiêng về downside.
+    <br><br>
+    <strong>Khuyến nghị Namanhsuit:</strong> Giữ vị thế core nếu mua dưới 120k, <strong>trim 30–40%</strong> phần đã có lãi &gt;100% và đặt mức trailing-stop 195k. Chỉ <strong>mua lại</strong> khi (1) VinFast công bố EBITDA dương Q3/26, (2) FTSE final review tích cực, hoặc (3) giá điều chỉnh về vùng 170–180k với volume cạn.
+   </div>
+  </div>
+ </div>
+
+</section>
+
+<footer>
+ <div>Namanhsuit Research Desk · VIC Risk Score Report</div>
+ <div>Generated 24/05/2026 · Data: HOSE, SEC, Vietstock, stockanalysis, gulfnews</div>
+</footer>
+
+<script>
+function copyReport(){
+ const txt = `
+═══════════════════════════════════════════════════════
+VIC · TẬP ĐOÀN VINGROUP · BÁO CÁO ĐIỂM RỦI RO
+Cập nhật: 24/05/2026 · Nguồn: Namanhsuit Research
+═══════════════════════════════════════════════════════
+
+[GIÁ] 218.700 VND · ATH 232.000 (14/05) · ▼ −5,73%
+[VỐN HÓA] ~64 tỷ USD
+[ĐIỂM RỦI RO TỔNG HỢP] 68/100 — RỦI RO CAO
+
+──────────────────────────────────────────────────────
+CHỈ TIÊU CHÍNH
+──────────────────────────────────────────────────────
+• P/E TTM:          44,2x   (Forward 79,1x)
+• P/B:               5,1x
+• Nợ / VCSH:         2,23x
+• ROIC:              0,59%
+• ROE:               7,30%
+• DT 2025:           331,8 nghìn tỷ  (+75,5%)
+• LN sau thuế 2025:   10,7 nghìn tỷ  (−5,7%)
+• DT Q1/2026:        104,4 nghìn tỷ  (+24,0%)
+• LN Q1/2026:          5,6 nghìn tỷ  (+150%)
+
+──────────────────────────────────────────────────────
+PHÂN RÃ ĐIỂM RỦI RO  (35 / 35 / 30)
+──────────────────────────────────────────────────────
+• Định giá          28/35   (80%)  ▮▮▮▮▮▮▮▮░░  Rủi ro
+• Sức khỏe TC       26/35   (74%)  ▮▮▮▮▮▮▮░░░  Rủi ro
+• Tăng trưởng       14/30   (47%)  ▮▮▮▮▮░░░░░  Đạt
+TỔNG               68/100   (68%)  ─ Rủi ro cao
+
+──────────────────────────────────────────────────────
+VINFAST Q1/2026
+──────────────────────────────────────────────────────
+• Bàn giao toàn cầu:  58.577 xe   (+61,2% YoY)
+• Việt Nam:           53.684 xe
+• Xuất khẩu:           4.893 xe   (Ấn Độ + Indonesia)
+• Mục tiêu 2026:    300.000 xe   (+50%)
+• Lỗ ròng 2025:    ~99,6 nghìn tỷ (~3,96 tỷ USD)
+• Going-concern note: có
+
+──────────────────────────────────────────────────────
+XÚC TÁC (12T tới)
+──────────────────────────────────────────────────────
+1. VinFast hòa vốn EBITDA Q4/26      [Cao]
+2. Vinhomes Cần Giờ mở bán Q3/26     [Cao]
+3. Vinpearl nâng FOL 49%             [TB]
+4. VinFast Indonesia full-scale Q4   [TB]
+5. FTSE EM final review T9/26        [Cao]
+
+──────────────────────────────────────────────────────
+RỦI RO (12T tới)
+──────────────────────────────────────────────────────
+1. Going-concern VinFast leo thang    [Cao]
+2. Định giá kéo dài, re-rating −20%   [Cao]
+3. Lãi suất + đòn bẩy nợ              [TB-Cao]
+4. Key-man & conglomerate discount    [TB]
+5. Tách VFTP nhiễu kế toán Q2-Q3      [TB]
+
+──────────────────────────────────────────────────────
+KẾT LUẬN
+──────────────────────────────────────────────────────
+RATING: HOLD / TRIM & WATCH
+
+Giữ core nếu giá vốn <120k. Trim 30–40% phần lãi
+>100% với trailing-stop 195k. Mua lại khi:
+ (1) VinFast EBITDA dương Q3/26
+ (2) FTSE final review tích cực
+ (3) Điều chỉnh về 170–180k với volume cạn.
+
+═══════════════════════════════════════════════════════
+© Namanhsuit Research · namanhsuit@gmail.com
+═══════════════════════════════════════════════════════`;
+ navigator.clipboard.writeText(txt.trim()).then(()=>{
+  const b = document.getElementById('copyBtn');
+  const o = b.textContent;
+  b.textContent='✓ Đã sao chép';
+  b.style.background='#3fd17a';
+  b.style.color='#08090d';
+  b.style.borderColor='#3fd17a';
+  setTimeout(()=>{b.textContent=o;b.style.background='';b.style.color='';b.style.borderColor=''},1800);
+ }).catch(err=>{
+  alert('Không sao chép được: '+err);
+ });
+}
+</script>
+
+</body>
+</html>

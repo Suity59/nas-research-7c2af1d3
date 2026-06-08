@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Namanhsuit Risk Reports · Preview</title>
+<style>
+@font-face{font-family:'SVN-Recoleta';src:url('./fonts/SVN-Recoleta Bold.otf') format('opentype');font-weight:700}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy Regular.otf') format('opentype');font-weight:400}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy Medium.otf') format('opentype');font-weight:500}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy SemiBold.otf') format('opentype');font-weight:600}
+@font-face{font-family:'SVN-Gilroy';src:url('./fonts/SVN-Gilroy Bold.otf') format('opentype');font-weight:700}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#08090d;--panel:#0d0f15;--panel2:#11141c;--line:#1d2230;--ink:#e9ecf3;--ink2:#9aa3b8;--ink3:#5d6478;--green:#3fd17a;--amber:#f6b94a;--accent:#7aa2ff}
+html,body{background:var(--bg);color:var(--ink);font-family:'SVN-Gilroy',-apple-system,sans-serif;min-height:100vh}
+body{display:flex;align-items:center;justify-content:center;padding:40px 24px}
+.wrap{max-width:880px;width:100%}
+.head{margin-bottom:36px}
+.kicker{font-size:11px;color:var(--ink3);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.h1{font-family:'SVN-Recoleta';font-size:46px;font-weight:700;letter-spacing:-.02em;line-height:1.05}
+.h1 .a{color:var(--accent)}
+.sub{font-size:14px;color:var(--ink2);font-weight:500;margin-top:12px;line-height:1.6;max-width:560px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;transition:all .2s;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.card.vic::before{background:var(--amber)}
+.card.vhm::before{background:var(--green)}
+.tick{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.tick .t{font-family:'SVN-Recoleta';font-size:32px;font-weight:700}
+.tick .ex{font-size:10px;padding:3px 8px;border:1px solid var(--line);border-radius:3px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
+.co{font-size:12px;color:var(--ink2);font-weight:500;text-transform:uppercase;letter-spacing:.14em;margin-bottom:18px}
+.row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.row .px{font-family:'SVN-Recoleta';font-size:24px;font-weight:700}
+.row .px .u{font-size:11px;color:var(--ink3);font-family:'SVN-Gilroy';font-weight:500;margin-left:4px}
+.row .sc{text-align:right}
+.row .sc .v{font-family:'SVN-Recoleta';font-size:28px;font-weight:700}
+.row .sc .l{font-size:9px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
+.vic .row .sc .v{color:var(--amber)}
+.vhm .row .sc .v{color:var(--green)}
+.rate{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.rate .lbl{font-size:10px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.rate .pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:4px;letter-spacing:.1em;text-transform:uppercase}
+.vic .rate .pill{background:rgba(246,185,74,.14);color:var(--amber);border:1px solid var(--amber)}
+.vhm .rate .pill{background:rgba(63,209,122,.14);color:var(--green);border:1px solid var(--green)}
+.bullets{font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:18px}
+.bullets div{padding-left:14px;position:relative}
+.bullets div::before{content:'·';position:absolute;left:4px;color:var(--ink3)}
+.cta{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.14em;text-transform:uppercase}
+.cta::after{content:'→';font-size:14px}
+.foot{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase}
+@media(max-width:680px){.grid{grid-template-columns:1fr}.h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="head">
+  <div class="kicker">Namanhsuit Research · Preview · 24/05/2026</div>
+  <div class="h1">Risk Score <span class="a">Reports</span></div>
+  <div class="sub">Báo cáo điểm rủi ro 2 trang cho doanh nghiệp niêm yết HOSE. Khung 35/35/30: Định giá · Sức khỏe tài chính · Tăng trưởng. Bấm vào card để xem chi tiết.</div>
+ </div>
+
+ <div class="grid">
+
+  <a class="card vic" href="./vic.html">
+   <div class="tick"><div class="t">VIC</div><div class="ex">HOSE</div></div>
+   <div class="co">Tập đoàn Vingroup</div>
+   <div class="row">
+    <div class="px">218.700<span class="u">VND</span></div>
+    <div class="sc"><div class="v">68<span style="font-size:14px;color:var(--ink3)">/100</span></div><div class="l">Risk Score</div></div>
+   </div>
+   <div class="rate"><span class="lbl">Rating</span><span class="pill">Hold / Trim</span></div>
+   <div class="bullets">
+    <div>P/E forward 79x · D/E 2,23x · ROIC 0,59%</div>
+    <div>VinFast lỗ ~3,96 tỷ USD · going-concern note</div>
+    <div>Giá đã +217% trong 12 tháng – cẩn trọng</div>
+   </div>
+   <div class="cta">Mở báo cáo VIC</div>
+  </a>
+
+  <a class="card vhm" href="./vhm.html">
+   <div class="tick"><div class="t">VHM</div><div class="ex">HOSE</div></div>
+   <div class="co">Vinhomes JSC</div>
+   <div class="row">
+    <div class="px">107.200<span class="u">VND</span></div>
+    <div class="sc"><div class="v">38<span style="font-size:14px;color:var(--ink3)">/100</span></div><div class="l">Risk Score</div></div>
+   </div>
+   <div class="rate"><span class="lbl">Rating</span><span class="pill">Buy / Accumulate</span></div>
+   <div class="bullets">
+    <div>P/E forward 11x · D/E 0,60x · ROE 13,2%</div>
+    <div>Q1/26 LN +866% · Backlog 201,6 nghìn tỷ</div>
+    <div>Đã điều chỉnh −29% từ ATH – vùng mua tốt</div>
+   </div>
+   <div class="cta">Mở báo cáo VHM</div>
+  </a>
+
+ </div>
+
+ <div class="foot">
+  <div>© Namanhsuit Research Desk</div>
+  <div>Confidential · Internal use only</div>
+ </div>
+</div>
+</body>
+</html>
