@@ -1,0 +1,359 @@
+/* ============================================
+   Namanhsuit Risk Report · Animation Layer
+   Gated by html.anim so JS-fail = visible content
+   ============================================ */
+
+@media (prefers-reduced-motion: no-preference){
+
+/* === 1. ENTRANCE REVEAL === */
+html.anim [data-reveal]{
+ opacity:0;
+ transform:translateY(24px);
+ transition:opacity .85s cubic-bezier(.16,.84,.3,1),transform .85s cubic-bezier(.16,.84,.3,1);
+ will-change:opacity,transform;
+}
+html.anim [data-reveal="left"]{transform:translateX(-32px)}
+html.anim [data-reveal="right"]{transform:translateX(32px)}
+html.anim [data-reveal="scale"]{transform:scale(.94)}
+html.anim [data-reveal].in{opacity:1;transform:none}
+
+/* stagger delays — set via data-d on element */
+html.anim [data-d="1"]{transition-delay:.06s}
+html.anim [data-d="2"]{transition-delay:.12s}
+html.anim [data-d="3"]{transition-delay:.18s}
+html.anim [data-d="4"]{transition-delay:.24s}
+html.anim [data-d="5"]{transition-delay:.30s}
+html.anim [data-d="6"]{transition-delay:.36s}
+
+/* === 2. PULSE DOT (live indicator) === */
+html.anim .ticker .dot{
+ display:inline-block;
+ animation:pulseDot 2.2s cubic-bezier(.4,0,.6,1) infinite;
+}
+@keyframes pulseDot{
+ 0%,100%{opacity:.45;transform:scale(1)}
+ 50%{opacity:1;transform:scale(1.18)}
+}
+
+/* === 3. BUTTON SHIMMER === */
+html.anim .btn{position:relative;overflow:hidden;isolation:isolate}
+html.anim .btn::after{
+ content:'';
+ position:absolute;
+ inset:0;
+ background:linear-gradient(110deg,transparent 0%,transparent 38%,rgba(255,255,255,.14) 50%,transparent 62%,transparent 100%);
+ transform:translateX(-100%);
+ transition:transform .65s cubic-bezier(.16,.84,.3,1);
+ pointer-events:none;
+}
+html.anim .btn:hover::after{transform:translateX(100%)}
+
+/* === 4. CARD HOVER LIFT === */
+html.anim .m-card,html.anim .panel,html.anim .gauge-card,html.anim .kpi-strip,html.anim .chart-card,html.anim .scorebar,html.anim .dual-col{
+ transition:transform .35s cubic-bezier(.16,.84,.3,1),border-color .35s,box-shadow .35s;
+}
+html.anim .m-card:hover{
+ transform:translateY(-3px);
+ border-color:var(--line2);
+ box-shadow:0 18px 38px -22px rgba(0,0,0,.7),0 0 0 1px rgba(122,162,255,.08);
+}
+html.anim .dual-item{transition:background .25s,padding .25s}
+html.anim .dual-item:hover{background:rgba(122,162,255,.03);padding-left:6px;border-radius:4px}
+
+/* KPI border-left grow on hover */
+html.anim .kpi{transition:border-left-width .25s,padding-left .25s}
+html.anim .kpi:hover{border-left-width:4px;padding-left:13px}
+
+/* === 5. GAUGE NEEDLE ANIMATION === */
+html.anim .gauge-needle{
+ transform:rotate(-180deg);
+ transform-origin:110px 110px;
+ transform-box:fill-box;
+ transition:transform 1.8s cubic-bezier(.34,1.46,.5,1) .35s;
+}
+html.anim .gauge-needle.in{transform:rotate(var(--gauge-deg))}
+
+/* gauge score shimmer on reveal */
+html.anim .gauge-score{position:relative;overflow:hidden}
+html.anim .gauge-score::after{
+ content:'';
+ position:absolute;
+ inset:0;
+ background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);
+ transform:translateX(-100%);
+ transition:transform 1.2s ease-out 1.2s;
+}
+html.anim .gauge-card.in .gauge-score::after{transform:translateX(100%)}
+
+/* === 6. SVG PRICE CHART LINE DRAW === */
+html.anim .chart-line{
+ stroke-dasharray:2400;
+ stroke-dashoffset:2400;
+ transition:stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1) .35s;
+}
+html.anim .chart-card.in .chart-line{stroke-dashoffset:0}
+
+/* area fill fade-in */
+html.anim .chart-area{opacity:0;transition:opacity 1.4s ease-out 1.2s}
+html.anim .chart-card.in .chart-area{opacity:1}
+
+/* chart markers pop sequentially */
+html.anim .chart-marker{
+ opacity:0;
+ transform-origin:center;
+ transform:scale(.3);
+ transform-box:fill-box;
+ transition:opacity .5s,transform .65s cubic-bezier(.34,1.56,.64,1);
+}
+html.anim .chart-marker.m1{transition-delay:1.55s}
+html.anim .chart-marker.m2{transition-delay:1.75s}
+html.anim .chart-marker.m3{transition-delay:1.95s}
+html.anim .chart-marker.m4{transition-delay:2.15s}
+html.anim .chart-marker.m5{transition-delay:2.35s}
+html.anim .chart-card.in .chart-marker{opacity:1;transform:scale(1)}
+
+/* marker label boxes (rect+text) fade with their marker */
+html.anim .chart-label{
+ opacity:0;
+ transition:opacity .5s ease-out;
+}
+html.anim .chart-label.m1{transition-delay:1.75s}
+html.anim .chart-label.m2{transition-delay:1.95s}
+html.anim .chart-label.m3{transition-delay:2.15s}
+html.anim .chart-card.in .chart-label{opacity:1}
+
+/* dashed reference lines */
+html.anim .chart-ref{
+ opacity:0;
+ transition:opacity .6s ease-out;
+}
+html.anim .chart-card.in .chart-ref{opacity:.6;transition-delay:1.8s}
+
+/* === 7. SCORE BREAKDOWN BARS — FILL ANIMATION === */
+html.anim .sb-fill{
+ width:0 !important;
+ transition:width 1.4s cubic-bezier(.16,.84,.3,1);
+}
+html.anim .scorebar.in .sb-row:nth-child(1) .sb-fill{width:var(--w) !important;transition-delay:.1s}
+html.anim .scorebar.in .sb-row:nth-child(2) .sb-fill{width:var(--w) !important;transition-delay:.25s}
+html.anim .scorebar.in .sb-row:nth-child(3) .sb-fill{width:var(--w) !important;transition-delay:.40s}
+html.anim .scorebar.in .sb-total .sb-fill{width:var(--w) !important;transition-delay:.60s}
+
+/* score number counters fade in synced */
+html.anim .sb-score{opacity:0;transition:opacity .5s}
+html.anim .scorebar.in .sb-row:nth-child(1) .sb-score{opacity:1;transition-delay:.6s}
+html.anim .scorebar.in .sb-row:nth-child(2) .sb-score{opacity:1;transition-delay:.75s}
+html.anim .scorebar.in .sb-row:nth-child(3) .sb-score{opacity:1;transition-delay:.9s}
+html.anim .scorebar.in .sb-total .sb-score{opacity:1;transition-delay:1.1s}
+
+/* === 8. RATING BAR PULSE === */
+html.anim .rb-seg.active{
+ animation:ratingPulse 2.6s cubic-bezier(.4,0,.6,1) infinite;
+}
+@keyframes ratingPulse{
+ 0%,100%{filter:brightness(1) saturate(1)}
+ 50%{filter:brightness(1.15) saturate(1.25)}
+}
+
+/* === 9. VERDICT TAG GLOW === */
+html.anim .v-tag{
+ transition:transform .35s,box-shadow .35s;
+}
+html.anim .v-tag:hover{
+ transform:scale(1.02);
+}
+.vic-page html.anim .v-tag{box-shadow:0 0 0 0 rgba(246,185,74,.5);animation:vTagGlowAmber 3.2s ease-in-out infinite}
+@keyframes vTagGlowAmber{
+ 0%,100%{box-shadow:0 0 0 0 rgba(246,185,74,0)}
+ 50%{box-shadow:0 0 28px -8px rgba(246,185,74,.45)}
+}
+
+/* === 10. TABLE ROW STAGGER === */
+html.anim .qtable tbody tr{
+ opacity:0;
+ transform:translateY(8px);
+ transition:opacity .5s,transform .5s;
+}
+html.anim .qtable.in tbody tr{opacity:1;transform:none}
+html.anim .qtable.in tbody tr:nth-child(1){transition-delay:.05s}
+html.anim .qtable.in tbody tr:nth-child(2){transition-delay:.12s}
+html.anim .qtable.in tbody tr:nth-child(3){transition-delay:.19s}
+html.anim .qtable.in tbody tr:nth-child(4){transition-delay:.26s}
+html.anim .qtable.in tbody tr:nth-child(5){transition-delay:.33s}
+html.anim .qtable.in tbody tr:nth-child(6){transition-delay:.40s}
+
+/* row hover */
+html.anim .qtable tbody tr{transition:opacity .5s,transform .5s,background .25s}
+html.anim .qtable tbody tr:hover{background:rgba(122,162,255,.04)}
+
+/* === 11. METRIC CARD SECTION STAGGER === */
+html.anim .metric-grid .m-card{
+ opacity:0;
+ transform:translateY(20px) scale(.97);
+ transition:opacity .65s cubic-bezier(.16,.84,.3,1),transform .65s cubic-bezier(.16,.84,.3,1);
+}
+html.anim .metric-grid.in .m-card{opacity:1;transform:none}
+html.anim .metric-grid.in .m-card:nth-child(1){transition-delay:.0s}
+html.anim .metric-grid.in .m-card:nth-child(2){transition-delay:.08s}
+html.anim .metric-grid.in .m-card:nth-child(3){transition-delay:.16s}
+html.anim .metric-grid.in .m-card:nth-child(4){transition-delay:.24s}
+html.anim .metric-grid.in .m-card:nth-child(5){transition-delay:.32s}
+html.anim .metric-grid.in .m-card:nth-child(6){transition-delay:.40s}
+
+/* card status pill subtle pulse */
+html.anim .m-card .ms{transition:transform .25s,background .25s}
+html.anim .m-card:hover .ms{transform:scale(1.06)}
+
+/* === 12. KPI STRIP STAGGER === */
+html.anim .kpi-strip .kpi{
+ opacity:0;
+ transform:translateX(-12px);
+ transition:opacity .55s cubic-bezier(.16,.84,.3,1),transform .55s cubic-bezier(.16,.84,.3,1);
+}
+html.anim .kpi-strip.in .kpi{opacity:1;transform:none}
+html.anim .kpi-strip.in .kpi:nth-child(1){transition-delay:.10s}
+html.anim .kpi-strip.in .kpi:nth-child(2){transition-delay:.17s}
+html.anim .kpi-strip.in .kpi:nth-child(3){transition-delay:.24s}
+html.anim .kpi-strip.in .kpi:nth-child(4){transition-delay:.31s}
+html.anim .kpi-strip.in .kpi:nth-child(5){transition-delay:.38s}
+html.anim .kpi-strip.in .kpi:nth-child(6){transition-delay:.45s}
+
+/* KPI value count-flip prep */
+html.anim .kpi .v{display:inline-block;transition:color .3s}
+
+/* === 13. DUAL COLUMN ITEMS STAGGER === */
+html.anim .dual-col .dual-item{
+ opacity:0;
+ transform:translateY(10px);
+ transition:opacity .5s,transform .5s;
+}
+html.anim .dual-col.in .dual-item{opacity:1;transform:none}
+html.anim .dual-col.in .dual-item:nth-child(2){transition-delay:.08s}
+html.anim .dual-col.in .dual-item:nth-child(3){transition-delay:.16s}
+html.anim .dual-col.in .dual-item:nth-child(4){transition-delay:.24s}
+html.anim .dual-col.in .dual-item:nth-child(5){transition-delay:.32s}
+html.anim .dual-col.in .dual-item:nth-child(6){transition-delay:.40s}
+
+/* === 14. ARROW BOUNCE ON CHANGE === */
+html.anim .change::first-letter,
+html.anim .qtable .pos::first-letter,
+html.anim .qtable .neg::first-letter{
+ display:inline-block;
+ animation:arrowDrift 2s ease-in-out infinite;
+}
+@keyframes arrowDrift{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-2px)}
+}
+
+/* === 15. SECTION HEADER UNDERLINE === */
+html.anim .sec-h{position:relative}
+html.anim .sec-h::after{
+ content:'';
+ position:absolute;
+ bottom:-4px;
+ left:0;
+ width:0;
+ height:1px;
+ background:linear-gradient(90deg,var(--accent) 0%,transparent 100%);
+ transition:width 1s cubic-bezier(.16,.84,.3,1) .2s;
+}
+html.anim .sec-h.in::after{width:120px}
+
+/* === 16. BOTTOM LINE ACCENT BAR GROW === */
+html.anim .bottom::before{
+ transform:scaleY(0);
+ transform-origin:top;
+ transition:transform 1s cubic-bezier(.16,.84,.3,1) .2s;
+}
+html.anim .bottom.in::before{transform:scaleY(1)}
+
+/* === 17. PAGE-LOAD HERO ENTRANCE === */
+html.anim .stockbar{
+ opacity:0;
+ transform:translateY(-8px);
+ animation:heroFade .9s cubic-bezier(.16,.84,.3,1) .05s forwards;
+}
+html.anim .hero > .gauge-card{
+ opacity:0;
+ transform:translateY(20px);
+ animation:heroFade .9s cubic-bezier(.16,.84,.3,1) .25s forwards;
+}
+html.anim .hero > .kpi-strip{
+ opacity:0;
+ transform:translateY(20px);
+ animation:heroFade .9s cubic-bezier(.16,.84,.3,1) .40s forwards;
+}
+html.anim .chart-card{
+ opacity:0;
+ transform:translateY(20px);
+ animation:heroFade .9s cubic-bezier(.16,.84,.3,1) .55s forwards;
+}
+@keyframes heroFade{
+ to{opacity:1;transform:none}
+}
+
+/* === 18. PRICE CRAWL ON HEADER === */
+html.anim .price{
+ background:linear-gradient(110deg,currentColor 0%,currentColor 45%,rgba(255,255,255,.7) 50%,currentColor 55%,currentColor 100%);
+ background-size:200% 100%;
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent;
+ animation:priceCrawl 4.5s linear .8s 1 forwards;
+}
+.price .unit{color:var(--ink2)!important;-webkit-text-fill-color:var(--ink2)}
+@keyframes priceCrawl{
+ 0%{background-position:200% 0;color:transparent}
+ 60%{background-position:-50% 0}
+ 100%{background-position:-200% 0;color:#e9ecf3;-webkit-text-fill-color:#e9ecf3;background:none}
+}
+
+/* === 19. SCROLL-TO-TOP BUTTON === */
+html.anim .scroll-top{
+ position:fixed;
+ right:24px;
+ bottom:24px;
+ width:46px;
+ height:46px;
+ border-radius:50%;
+ background:var(--panel2);
+ border:1px solid var(--line2);
+ color:var(--ink);
+ cursor:pointer;
+ opacity:0;
+ transform:translateY(20px) scale(.85);
+ transition:opacity .35s,transform .35s,background .25s,border-color .25s;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index:50;
+ font-family:'SVN-Recoleta',serif;
+ font-size:18px;
+ font-weight:700;
+ box-shadow:0 12px 28px -10px rgba(0,0,0,.6);
+}
+html.anim .scroll-top.show{opacity:1;transform:none}
+html.anim .scroll-top:hover{background:var(--accent);border-color:var(--accent);color:#08090d}
+
+/* === 20. PROGRESS BAR AT TOP === */
+html.anim .progress{
+ position:fixed;
+ top:0;left:0;right:0;
+ height:2px;
+ background:linear-gradient(90deg,#3fd17a,#7aa2ff,#f6b94a);
+ transform-origin:left;
+ transform:scaleX(0);
+ z-index:100;
+ transition:transform .15s linear;
+}
+
+} /* end @media no-preference */
+
+/* === RESPECT REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce){
+ html.anim *{
+  animation:none !important;
+  transition:none !important;
+ }
+}
